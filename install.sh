@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=./target/brain3Simulator-jar-with-dependencies.jar -DgroupId=com.cri.cim.brain3 -DartifactId=brain3 -Dversion=3.0.0 -Dpackaging=jar

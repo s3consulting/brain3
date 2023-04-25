@@ -1,0 +1,111 @@
+package time;
+
+import model.Brain3SimulatorALGORITMO4;
+import model.Edge;
+import model.Graph;
+import model.Vertex;
+import util.FileObject;
+import util.FileSystemUtil;
+import util.GraphUtil;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class AnnualSimulation_ALGORITMO4 {
+
+    public static void main(String[] args) throws IOException {
+
+        String inDir1 = args[0];
+        String outDir1 = args[1];
+
+        System.out.println("DIRECTORIES: "+inDir1+", "+outDir1);
+
+        String algoritmo="ALGORITMO_4";
+
+        int numberOfSamples = 365;
+        int summation = 1;
+
+        String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
+        //String graphName = "PraksGasGraph";
+        //String graphName = "PraksGasGraph_MAX_CAP";
+        //String graphName = "PRAKS_GRAPH_CASE_A";
+        //String graphName = "PRAKS_GRAPH_CASE_B";
+        //String graphName = "PRAKS_GRAPH_CASE_C";
+        //String graphName = "PRAKS_GRAPH_CASE_D";
+        //String graphName = "PRAKS_GRAPH_CASE_E";
+        //String graphName = "PRAKS_GRAPH_CASE_F";
+        String graphName = "PRAKS_GRAPH_CASE_G";
+
+        Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
+
+        Map<String, Map<String, Double>> CDF = new HashMap<>();
+
+        Map<Integer, List<Double>> sourceFailurePerYear = AnnualSimulationUtil.generateFailureOnSourcePerYear(graph);
+        Map<String, List<Double>> pipelineFailurePerYear = AnnualSimulationUtil.generateFailureOnPipelinePerYear(graph);
+
+        List<Vertex> sourcesWithFailure = new ArrayList<>();
+        List<Edge> failedEdges = new ArrayList<>();
+        List<Edge> arcsWithReducedCapacity = new ArrayList<>();
+
+
+        Graph augmentedGraph;
+        String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL";
+        String cdfOutDir = outDir+"/"+graphName+"_"+algoritmo;
+
+        List<Double> gasReceivedPercentage = new ArrayList<>();
+        List<Double> satisfiedSinksPercentage = new ArrayList<>();
+
+        FileObject fileObject = FileSystemUtil.openFileObject(outDir, graphName+"_"+algoritmo);
+        for (int day = 0; day < numberOfSamples; day++) {
+            System.out.println("DAY: " + day);
+            graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
+            graph.setName(graphName);
+            Brain3SimulatorALGORITMO4 brain3SimulatorALGORITMO4 = new Brain3SimulatorALGORITMO4(graph);
+
+            augmentedGraph = brain3SimulatorALGORITMO4.getAugmentedGraph();
+            fileObject.getBw().write("\n---------------------------------- DAY " + day + "\n");
+
+
+            String updateFixedElementsTxt = AnnualSimulationUtil.updateFixedElements(augmentedGraph, day, sourcesWithFailure, failedEdges, arcsWithReducedCapacity);
+            fileObject.getBw().write(updateFixedElementsTxt);
+
+            String propagateFailuresTxt = AnnualSimulationUtil.propagateFailures(augmentedGraph, day, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
+            fileObject.getBw().write(propagateFailuresTxt);
+
+            String injectFailureToSourceTxt = AnnualSimulationUtil.injectFailureToSource(augmentedGraph, day, sourceFailurePerYear, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
+            fileObject.getBw().write(injectFailureToSourceTxt);
+
+            String injectFailureToPipelineTxt = AnnualSimulationUtil.injectFailureToPipeline(augmentedGraph, day, pipelineFailurePerYear, failedEdges);
+            fileObject.getBw().write(injectFailureToPipelineTxt);
+
+
+            brain3SimulatorALGORITMO4.execute();
+            GraphUtil.showRealDestinationsOrdered(graph);
+
+
+            fileObject.getBw().write(GraphUtil.getResultsAsString(brain3SimulatorALGORITMO4.getAugmentedGraph()));
+
+            Double totalDemand = GraphUtil.getTotalDemand(augmentedGraph);
+            Double netSinkFlow = GraphUtil.getNetFlowOnSinks(augmentedGraph);
+            Double numberOfSatisfiedSink = GraphUtil.getNumberOfSatisfiedSinks(augmentedGraph);
+            Double numberOfSink = GraphUtil.getNumberOfSinks(augmentedGraph);
+
+            GraphUtil.createCumulativeDistribution(CDF, augmentedGraph, totalDemand, netSinkFlow);
+
+            gasReceivedPercentage.add(netSinkFlow/totalDemand);
+            satisfiedSinksPercentage.add(numberOfSatisfiedSink/numberOfSink);
+            System.out.println("-------");
+
+
+
+        }
+        FileSystemUtil.closeFileObject(fileObject);
+        GraphUtil.writeCDFonFile(CDF, cdfOutDir);
+        GraphUtil.writeStatisticOnFile(gasReceivedPercentage, satisfiedSinksPercentage, cdfOutDir);
+
+        System.out.println("END");
+    }
+}
