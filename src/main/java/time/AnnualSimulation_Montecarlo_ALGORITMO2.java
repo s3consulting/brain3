@@ -14,14 +14,21 @@ import java.util.*;
 public class AnnualSimulation_Montecarlo_ALGORITMO2 {
 
     public static void main(String[] args) throws IOException {
-        Integer nIterazioni = 50;
+
+        String dir = args[0];
+        String outDir = args[1];
+        Integer nIterazioni = Integer.valueOf(args[2]);
+
+        System.out.println("DIRECTORIES: "+dir+", "+outDir);
+
+        //Integer nIterazioni = 50;
         Integer numberOfDays = 365;
         String algoritmo="ALGORITMO_2";
 
         int numberOfSamples = 365;
         int summation = 1;
 
-        String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
+        //String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
         //String graphName = "PraksGasGraph";
         //String graphName = "PraksGasGraph_MAX_CAP";
         //String graphName = "PRAKS_GRAPH_CASE_A";
@@ -49,7 +56,7 @@ public class AnnualSimulation_Montecarlo_ALGORITMO2 {
 
 
         Graph augmentedGraph;
-        String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL_MONTECARLO";
+        //String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL_MONTECARLO";
 
         Date date = new Date(System.currentTimeMillis());
 

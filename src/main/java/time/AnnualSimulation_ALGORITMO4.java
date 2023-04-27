@@ -9,26 +9,23 @@ import util.FileSystemUtil;
 import util.GraphUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AnnualSimulation_ALGORITMO4 {
 
     public static void main(String[] args) throws IOException {
 
-        String inDir1 = args[0];
-        String outDir1 = args[1];
+        String dir = args[0];
+        String outDir = args[1];
 
-        System.out.println("DIRECTORIES: "+inDir1+", "+outDir1);
+        System.out.println("DIRECTORIES: "+dir+", "+outDir);
 
         String algoritmo="ALGORITMO_4";
 
         int numberOfSamples = 365;
         int summation = 1;
 
-        String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
+        //String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
         //String graphName = "PraksGasGraph";
         //String graphName = "PraksGasGraph_MAX_CAP";
         //String graphName = "PRAKS_GRAPH_CASE_A";
@@ -52,8 +49,21 @@ public class AnnualSimulation_ALGORITMO4 {
 
 
         Graph augmentedGraph;
-        String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL";
-        String cdfOutDir = outDir+"/"+graphName+"_"+algoritmo;
+        //String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL";
+
+        Date date = new Date(System.currentTimeMillis());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Integer day1 = calendar.get(Calendar.DAY_OF_MONTH);
+        Integer month = calendar.get(Calendar.MONTH);
+        Integer year = calendar.get(Calendar.YEAR);
+        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
+        Integer min = calendar.get(Calendar.MINUTE);
+        Integer sec = calendar.get(Calendar.SECOND);
+        String mask = day1+"-"+month+"-"+year+"_"+hour+"-"+min+"-"+sec;
+        String cdfOutDir = outDir+"/"+graphName+"_"+algoritmo+"_CDF_"+mask;
+
 
         List<Double> gasReceivedPercentage = new ArrayList<>();
         List<Double> satisfiedSinksPercentage = new ArrayList<>();
