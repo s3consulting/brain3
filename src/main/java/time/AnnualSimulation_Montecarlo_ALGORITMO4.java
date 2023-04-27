@@ -1,5 +1,6 @@
 package time;
 
+import exception.GraphException;
 import model.*;
 import util.FileObject;
 import util.FileSystemUtil;
@@ -9,7 +10,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class AnnualSimulation_Montecarlo_ALGORITMO4 {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GraphException {
+
+        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 3);
         String dir = args[0];
         String outDir = args[1];
         Integer nIterazioni = Integer.valueOf(args[2]);

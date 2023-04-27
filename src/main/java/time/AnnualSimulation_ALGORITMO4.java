@@ -1,5 +1,6 @@
 package time;
 
+import exception.GraphException;
 import model.Brain3SimulatorALGORITMO4;
 import model.Edge;
 import model.Graph;
@@ -13,7 +14,9 @@ import java.util.*;
 
 public class AnnualSimulation_ALGORITMO4 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GraphException {
+
+        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 2);
 
         String dir = args[0];
         String outDir = args[1];

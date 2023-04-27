@@ -1,6 +1,7 @@
 package time;
 
 import constant.*;
+import exception.GraphException;
 import model.Edge;
 import model.Graph;
 import model.Vertex;
@@ -259,6 +260,19 @@ public class AnnualSimulationUtil {
         return activity;
     }
 
+    public static void checkParametersAnnualSimulation(String[] args, int expectedParameters) throws GraphException {
+        if(args.length!=expectedParameters){
+            if(expectedParameters==2) {
+                System.out.println("definire la directory dei grafi e la directory dei risultati");
+                System.out.println("ex. java -cp ./target/brain3Simulator-jar-with-dependencies.jar time.AnnualSimulation_ALGORITMO2 INPUT_DIR OUTPUT_DIR");
+            }
+            else{
+                System.out.println("definire la directory dei grafi, la directory dei risultati e il numero di iterazioni di montecarlo");
+                System.out.println("ex. java -cp ./target/brain3Simulator-jar-with-dependencies.jar time.AnnualSimulation_Montecarlo_ALGORITMO2 INPUT_DIR OUTPUT_DIR ITERATIONS");
+            }
+            throw new GraphException("Numero parametri errato");
+        }
+    }
 }
 
 

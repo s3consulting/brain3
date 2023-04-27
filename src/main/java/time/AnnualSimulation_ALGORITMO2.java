@@ -2,6 +2,7 @@ package time;
 
 
 
+import exception.GraphException;
 import model.*;
 import util.FileObject;
 import util.FileSystemUtil;
@@ -12,7 +13,9 @@ import java.util.*;
 
 public class AnnualSimulation_ALGORITMO2 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GraphException {
+
+        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 2);
 
         String dir = args[0];
         String outDir = args[1];
