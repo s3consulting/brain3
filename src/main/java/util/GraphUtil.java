@@ -1064,17 +1064,6 @@ public class GraphUtil {
     }
 
     public static void writeCDFonFile(Map<String, Map<String, Double>> CDF, String directoryName) throws IOException {
-        Date date = new Date(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        Integer day = calendar.get(Calendar.DAY_OF_MONTH);
-        Integer month = calendar.get(Calendar.MONTH);
-        Integer year = calendar.get(Calendar.YEAR);
-        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Integer min = calendar.get(Calendar.MINUTE);
-        Integer sec = calendar.get(Calendar.SECOND);
-        String mask = day + "-" + month + "-" + year + "_" + hour + "-" + min + "-" + sec;
-
         //String newDir = directoryName + "/SIMULAZIONE_" + new Date(System.currentTimeMillis()).toString();
         String newDir = directoryName + "/CDFs";
         File theDir = new File(newDir);
@@ -1102,17 +1091,6 @@ public class GraphUtil {
     }
 
     public static void writeCDFonFile(Map<String, Map<String, Double>> CDF, String directoryName, Integer index) throws IOException {
-
-        Date date = new Date(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        Integer day = calendar.get(Calendar.DAY_OF_MONTH);
-        Integer month = calendar.get(Calendar.MONTH);
-        Integer year = calendar.get(Calendar.YEAR);
-        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Integer min = calendar.get(Calendar.MINUTE);
-        Integer sec = calendar.get(Calendar.SECOND);
-        String mask = day + "-" + month + "-" + year + "_" + hour + "-" + min + "-" + sec;
 
         //String newDir = directoryName + "/SIMULAZIONE_" + index + "___" + new Date(System.currentTimeMillis()).toString();
 
@@ -1297,17 +1275,6 @@ public class GraphUtil {
     }
 
     public static void writeFinalCDFonFile(Map<String, Map<String, Double>> CDF, String directoryName) throws IOException {
-        Date date = new Date(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        Integer day = calendar.get(Calendar.DAY_OF_MONTH);
-        Integer month = calendar.get(Calendar.MONTH);
-        Integer year = calendar.get(Calendar.YEAR);
-        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Integer min = calendar.get(Calendar.MINUTE);
-        Integer sec = calendar.get(Calendar.SECOND);
-        String mask = day + "-" + month + "-" + year + "_" + hour + "-" + min + "-" + sec;
-
         //String newDir = directoryName + "/SIMULAZIONE_" + new Date(System.currentTimeMillis()).toString();
         String newDir = directoryName + "/CDFs";
         File theDir = new File(newDir);
@@ -1332,5 +1299,21 @@ public class GraphUtil {
         bw.newLine();
         bw.close();
         fos.close();
+    }
+
+
+    public static String createFileMask(){
+        Date date = new Date(System.currentTimeMillis());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Integer day = calendar.get(Calendar.DAY_OF_MONTH);
+        Integer month = calendar.get(Calendar.MONTH)+1;
+        Integer year = calendar.get(Calendar.YEAR);
+        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
+        Integer min = calendar.get(Calendar.MINUTE);
+        Integer sec = calendar.get(Calendar.SECOND);
+        String mask = day+"-"+month+"-"+year+"_"+hour+":"+min+":"+sec;
+        return mask;
     }
 }

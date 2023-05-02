@@ -271,18 +271,8 @@ public class FileSystemUtil {
     }
 
     public static FileObject openFileObject(String directoryName, String fileName) throws FileNotFoundException {
-        Date date = new Date(System.currentTimeMillis());
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        Integer day = calendar.get(Calendar.DAY_OF_MONTH);
-        Integer month = calendar.get(Calendar.MONTH);
-        Integer year = calendar.get(Calendar.YEAR);
-        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Integer min = calendar.get(Calendar.MINUTE);
-        Integer sec = calendar.get(Calendar.SECOND);
-        String mask = day+"-"+month+"-"+year+"_"+hour+"-"+min+"-"+sec;
-
+        String mask = GraphUtil.createFileMask();
         //String outputFileName = fileName+"__"+date.toString();
         String outputFileName = fileName+"_ITERAZIONI_"+mask;
 

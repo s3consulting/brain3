@@ -49,18 +49,7 @@ public class AnnualSimulation_ALGORITMO2 {
 
         Graph augmentedGraph;
         //String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL";
-
-        Date date = new Date(System.currentTimeMillis());
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        Integer day1 = calendar.get(Calendar.DAY_OF_MONTH);
-        Integer month = calendar.get(Calendar.MONTH);
-        Integer year = calendar.get(Calendar.YEAR);
-        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Integer min = calendar.get(Calendar.MINUTE);
-        Integer sec = calendar.get(Calendar.SECOND);
-        String mask = day1+"-"+month+"-"+year+"_"+hour+"-"+min+"-"+sec;
+        String mask = GraphUtil.createFileMask();
         String cdfOutDir = outDir+"/"+graphName+"_"+algoritmo+"_CDF_"+mask;
         String adjacencyOutputDir = outDir+"/"+graphName+"_"+algoritmo+"_ADJACENCY_"+mask;
 
