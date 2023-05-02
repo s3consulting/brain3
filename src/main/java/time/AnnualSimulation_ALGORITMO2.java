@@ -20,7 +20,6 @@ public class AnnualSimulation_ALGORITMO2 {
         String dir = args[0];
         String outDir = args[1];
 
-        System.out.println("DIRECTORIES: "+dir+", "+outDir);
 
         String algoritmo="ALGORITMO_2";
 
@@ -65,6 +64,7 @@ public class AnnualSimulation_ALGORITMO2 {
         Integer sec = calendar.get(Calendar.SECOND);
         String mask = day1+"-"+month+"-"+year+"_"+hour+"-"+min+"-"+sec;
         String cdfOutDir = outDir+"/"+graphName+"_"+algoritmo+"_CDF_"+mask;
+        String adjacencyOutputDir = outDir+"/"+graphName+"_"+algoritmo+"_ADJACENCY_"+mask;
 
         List<Double> gasReceivedPercentage = new ArrayList<>();
         List<Double> satisfiedSinksPercentage = new ArrayList<>();
@@ -109,7 +109,7 @@ public class AnnualSimulation_ALGORITMO2 {
             satisfiedSinksPercentage.add(numberOfSatisfiedSink/numberOfSink);
             System.out.println("-------");
 
-
+            OutputFormatterUtil.writeAdjacencyMatrix(adjacencyOutputDir,day, augmentedGraph);
 
         }
         FileSystemUtil.closeFileObject(fileObject);

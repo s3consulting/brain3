@@ -12,6 +12,7 @@ montecarlo/RunMontecarloALGORITMO1.class
 constant/TypeConstant.class
 model/MinimalPathFlows.class
 model/Brain3SimulatorALGORITMO4.class
+time/OutputFormatterUtil.class
 mains/TestBrain3ALGORITMO1.class
 time/AnnualSimulation_ALGORITMO4.class
 util/FordFulkersonUtil.class
