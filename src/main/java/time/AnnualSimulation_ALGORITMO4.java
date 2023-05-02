@@ -2,9 +2,7 @@ package time;
 
 import exception.GraphException;
 import model.Brain3SimulatorALGORITMO4;
-import model.Edge;
-import model.Graph;
-import model.Vertex;
+import model.*;
 import util.FileObject;
 import util.FileSystemUtil;
 import util.GraphUtil;
@@ -21,7 +19,6 @@ public class AnnualSimulation_ALGORITMO4 {
         String dir = args[0];
         String outDir = args[1];
 
-        System.out.println("DIRECTORIES: "+dir+", "+outDir);
 
         String algoritmo="ALGORITMO_4";
 
@@ -66,7 +63,7 @@ public class AnnualSimulation_ALGORITMO4 {
         Integer sec = calendar.get(Calendar.SECOND);
         String mask = day1+"-"+month+"-"+year+"_"+hour+"-"+min+"-"+sec;
         String cdfOutDir = outDir+"/"+graphName+"_"+algoritmo+"_CDF_"+mask;
-
+        String adjacencyOutputDir = outDir+"/"+graphName+"_"+algoritmo+"_ADJACENCY_"+mask;
 
         List<Double> gasReceivedPercentage = new ArrayList<>();
         List<Double> satisfiedSinksPercentage = new ArrayList<>();
@@ -112,6 +109,7 @@ public class AnnualSimulation_ALGORITMO4 {
             satisfiedSinksPercentage.add(numberOfSatisfiedSink/numberOfSink);
             System.out.println("-------");
 
+            OutputFormatterUtil.writeAdjacencyMatrix(adjacencyOutputDir,day, augmentedGraph);
 
 
         }
