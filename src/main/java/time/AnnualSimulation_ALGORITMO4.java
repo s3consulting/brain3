@@ -14,7 +14,7 @@ public class AnnualSimulation_ALGORITMO4 {
 
     public static void main(String[] args) throws IOException, GraphException {
 
-        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 2);
+        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 3);
 
         String dir = args[0];
         String outDir = args[1];
