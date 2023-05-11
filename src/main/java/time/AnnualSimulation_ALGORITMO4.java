@@ -18,6 +18,7 @@ public class AnnualSimulation_ALGORITMO4 {
 
         String dir = args[0];
         String outDir = args[1];
+        String graphName = args[2];
 
 
         String algoritmo="ALGORITMO_4";
@@ -34,7 +35,7 @@ public class AnnualSimulation_ALGORITMO4 {
         //String graphName = "PRAKS_GRAPH_CASE_D";
         //String graphName = "PRAKS_GRAPH_CASE_E";
         //String graphName = "PRAKS_GRAPH_CASE_F";
-        String graphName = "PRAKS_GRAPH_CASE_G";
+        //String graphName = "PRAKS_GRAPH_CASE_G";
 
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
 

@@ -34,6 +34,7 @@ montecarlo/FailureRandomGenerator.class
 constant/ValueConstant.class
 model/Graph.class
 util/GenericUtil.class
+time/ExternalAttackInjector.class
 mains/TestBrain3ALGORITMO3.class
 montecarlo/ProbabilityDensityFunctions.class
 mains/TestCasiParticolariGraphBuilderWriteToFile.class

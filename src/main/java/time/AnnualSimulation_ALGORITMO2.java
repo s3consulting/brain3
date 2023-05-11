@@ -13,10 +13,11 @@ public class AnnualSimulation_ALGORITMO2 {
 
     public static void main(String[] args) throws IOException, GraphException {
 
-        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 2);
+        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 3);
 
         String dir = args[0];
         String outDir = args[1];
+        String graphName = args[2];
 
 
         String algoritmo="ALGORITMO_2";
@@ -33,7 +34,7 @@ public class AnnualSimulation_ALGORITMO2 {
         //String graphName = "PRAKS_GRAPH_CASE_D";
         //String graphName = "PRAKS_GRAPH_CASE_E";
         //String graphName = "PRAKS_GRAPH_CASE_F";
-        String graphName = "PRAKS_GRAPH_CASE_G";
+        //String graphName = "PRAKS_GRAPH_CASE_G";
 
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
 
