@@ -16,10 +16,11 @@ public class AnnualSimulation_Montecarlo_ALGORITMO2 {
 
     public static void main(String[] args) throws IOException, GraphException {
 
-        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 3);
+        AnnualSimulationUtil.checkParametersAnnualSimulation(args, 4);
         String dir = args[0];
         String outDir = args[1];
         Integer nIterazioni = Integer.valueOf(args[2]);
+        String graphName = args[3];
 
         System.out.println("DIRECTORIES: "+dir+", "+outDir);
 
@@ -39,7 +40,7 @@ public class AnnualSimulation_Montecarlo_ALGORITMO2 {
         //String graphName = "PRAKS_GRAPH_CASE_D";
         //String graphName = "PRAKS_GRAPH_CASE_E";
         //String graphName = "PRAKS_GRAPH_CASE_F";
-        String graphName = "PRAKS_GRAPH_CASE_G";
+        //String graphName = "PRAKS_GRAPH_CASE_G";
 
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
 
