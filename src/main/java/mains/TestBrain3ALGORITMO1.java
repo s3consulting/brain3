@@ -9,9 +9,12 @@ import java.io.IOException;
 
 public class TestBrain3ALGORITMO1 {
     public static void main(String[] args) throws IOException {
+
+        String dir = args[0];
+        String graphName = args[1];
         //Graph graph = GasGraphBuilder.createPraksGasGraph();
 
-        String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
+        //String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
         //String graphName = "PraksGasGraph";
         //String graphName = "PraksGasGraph_MAX_CAP";
         //String graphName = "PRAKS_GRAPH_CASE_A";
@@ -19,7 +22,7 @@ public class TestBrain3ALGORITMO1 {
         //String graphName = "PRAKS_GRAPH_CASE_C";
         //String graphName = "PRAKS_GRAPH_CASE_D";
         //String graphName = "PRAKS_GRAPH_CASE_E";
-        String graphName = "PRAKS_GRAPH_CASE_F";
+        //String graphName = "PRAKS_GRAPH_CASE_F";
         //String graphName = "PRAKS_GRAPH_CASE_G";
 
         //String graphName = "graphBuilderCase_G_BIGGER_CAPACITIES";

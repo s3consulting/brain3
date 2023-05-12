@@ -1,0 +1,1 @@
+java -cp ./target/brain3Simulator-jar-with-dependencies.jar mains.TestBrain3ALGORITMO4 /Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS PRAKS_GRAPH_CASE_G
