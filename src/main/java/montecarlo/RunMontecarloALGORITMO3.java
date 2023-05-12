@@ -16,9 +16,14 @@ import java.util.Map;
 public class RunMontecarloALGORITMO3 {
 
     public static void main(String[] args) throws IOException {
-        int nSteps = 10000;
-        String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
-        String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ALGORITMO_TRE_"+nSteps;
+        String dir = args[0];
+        String outDir = args[1];
+        int nSteps = Integer.valueOf(args[2]);
+
+        //int nSteps = 10000;
+        //String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
+        outDir = outDir + "/SIMULATION_ALGORITMO_TRE_" + nSteps;
+
         //String graphName = "PraksGasGraph";
         //String graphName = "PraksGasGraph_MAX_CAP";
         String graphName_A = "PRAKS_GRAPH_CASE_A";
@@ -40,10 +45,9 @@ public class RunMontecarloALGORITMO3 {
 
         Map<String, Map<String, Double>> CDF = new HashMap<>();
 
-        for(String graphName: cases) {
+        for (String graphName : cases) {
 
             FileObject fileObject = FileSystemUtil.openFileObject(outDir, graphName);
-
 
 
             for (int step = 0; step < nSteps; step++) {
@@ -59,7 +63,7 @@ public class RunMontecarloALGORITMO3 {
                 fileObject.getBw().write(GraphUtil.getResultsAsString(brain3Simulator.getAugmentedGraph()));
                 Double netSinkFlow = GraphUtil.getNetFlowOnSinks(brain3Simulator.getAugmentedGraph());
                 GraphUtil.createCumulativeDistribution(CDF, brain3Simulator.getAugmentedGraph(), totalDemand, netSinkFlow);
-                System.out.println("END CASE "+graphName);
+                System.out.println("END CASE " + graphName);
             }
 
             FileSystemUtil.closeFileObject(fileObject);
