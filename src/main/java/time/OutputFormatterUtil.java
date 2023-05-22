@@ -33,22 +33,35 @@ public class OutputFormatterUtil {
                         if (edge.getDestination().getId() == destination.getId()) {
                             found = true;
                             val = String.valueOf(edge.getValue(ValueConstant.CUMULATIVE_FLOW));
-                            if (edge.getValue(ValueConstant.CUMULATIVE_FLOW)==null) {
+                            if (edge.getValue(ValueConstant.CUMULATIVE_FLOW) == null) {
                                 val = "0.0";
                             }
                             break;
                         }
                     }
                     if (found) {
-                        row += "\t" + val;
+                        if (!row.equals("")) {
+                            row += "\t" + val;
+                        } else {
+                            row += val;
+                        }
                     } else {
-                        row += "\t" + 0.0;
+                        if (!row.equals("")) {
+                            row += "\t" + 0.0;
+                        } else {
+                            row += 0.0;
+                        }
                     }
                 } else {
-                    row += "\t0.0";
+                    if (!row.equals("")) {
+                        row += "\t0.0";
+                    }
+                    else{
+                        row+="0.0";
+                    }
                 }
             }
-            if(row.indexOf("null")!=-1){
+            if (row.indexOf("null") != -1) {
                 System.out.println("RRR");
             }
             row += "\n";

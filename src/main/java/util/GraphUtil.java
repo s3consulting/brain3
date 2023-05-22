@@ -1313,7 +1313,26 @@ public class GraphUtil {
         Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
         Integer min = calendar.get(Calendar.MINUTE);
         Integer sec = calendar.get(Calendar.SECOND);
-        String mask = day+"-"+month+"-"+year+"_"+hour+":"+min+":"+sec;
+        String mask = day+"-"+month+"-"+year+"_"+hour+""+min+""+sec;
         return mask;
+    }
+
+    public static void updateFlowOnArcsToVirtualDestination(Graph graph){
+        Vertex virtualSink = graph.getVirtualSink();
+
+        for(Vertex vertex: graph.getVertexes()){
+            if(vertex.getWeight(VertexConstant.VERTEX_DEMAND)!=null && vertex.getWeight(VertexConstant.VERTEX_DEMAND)>0){
+                Double flowNet = vertex.getFlowNet();
+                if(vertex.getOutEdges()!=null){
+                    for(Edge edge: vertex.getOutEdges()){
+                        Vertex destination = edge.getDestination();
+                        if(destination.getId() == virtualSink.getId()){
+                            edge.setValue(ValueConstant.CUMULATIVE_FLOW, flowNet);
+                            edge.setValue(ValueConstant.FLOW, flowNet);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

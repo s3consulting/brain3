@@ -29,7 +29,7 @@ public class TestBrain3ALGORITMO4 {
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
         Brain3SimulatorALGORITMO4 brain3SimulatorALGORITMO4 = new Brain3SimulatorALGORITMO4(graph);
         brain3SimulatorALGORITMO4.execute();
-
+        GraphUtil.updateFlowOnArcsToVirtualDestination(brain3SimulatorALGORITMO4.getAugmentedGraph());
         GraphUtil.showRealDestinationsOrdered(graph);
     }
 }

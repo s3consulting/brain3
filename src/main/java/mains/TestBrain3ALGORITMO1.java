@@ -31,6 +31,7 @@ public class TestBrain3ALGORITMO1 {
         graph.setName(graphName);
         Brain3SimulatorALGORITMO1 brain3SimulatorALGORITMO1 = new Brain3SimulatorALGORITMO1();
         brain3SimulatorALGORITMO1.execute(graph);
+        GraphUtil.updateFlowOnArcsToVirtualDestination(brain3SimulatorALGORITMO1.getAugmentedGraph());
         System.out.println("END");
 
         System.out.println("------------- SORTED SINKS STATISTICS -----------------");

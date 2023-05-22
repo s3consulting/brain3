@@ -96,7 +96,7 @@ public class AnnualSimulation_ALGORITMO2 {
             gasReceivedPercentage.add(netSinkFlow/totalDemand);
             satisfiedSinksPercentage.add(numberOfSatisfiedSink/numberOfSink);
             System.out.println("-------");
-
+            GraphUtil.updateFlowOnArcsToVirtualDestination(augmentedGraph);
             OutputFormatterUtil.writeAdjacencyMatrix(adjacencyOutputDir,day, augmentedGraph);
 
         }

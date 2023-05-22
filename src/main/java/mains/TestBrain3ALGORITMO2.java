@@ -32,7 +32,7 @@ public class TestBrain3ALGORITMO2 {
 
         Brain3SimulatorALGORITMO2 brain3SimulatorALGORITMO2 = new Brain3SimulatorALGORITMO2(graph);
         brain3SimulatorALGORITMO2.execute();
-
+        GraphUtil.updateFlowOnArcsToVirtualDestination(brain3SimulatorALGORITMO2.getAugmentedGraph());
         GraphUtil.showSourceStatistics(brain3SimulatorALGORITMO2.getAugmentedGraph());
         GraphUtil.showSinksStatistics(brain3SimulatorALGORITMO2.getAugmentedGraph());
 

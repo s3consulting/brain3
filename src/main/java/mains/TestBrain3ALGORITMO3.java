@@ -27,7 +27,7 @@ public class TestBrain3ALGORITMO3 {
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
         Brain3SimulatorALGORITMO3 brain3SimulatorALGORITMO3 = new Brain3SimulatorALGORITMO3(graph);
         brain3SimulatorALGORITMO3.execute();
-
+        GraphUtil.updateFlowOnArcsToVirtualDestination(brain3SimulatorALGORITMO3.getAugmentedGraph());
         GraphUtil.showRealDestinationsOrdered(graph);
     }
 }
