@@ -1,7 +1,9 @@
 model/Vertex.class
+time/CumulativeAdjacencyMatrix.class
 model/Brain3SimulatorALGORITMO1.class
 util/FileSystemUtil.class
 montecarlo/RunMontecarloALGORITMO2.class
+time/MultiAnnualSimulation_ALGORITMO4.class
 mains/TestMaxFlowPropagationPathsAdjustment.class
 util/DijkstraUtil.class
 constant/ReparationTime.class

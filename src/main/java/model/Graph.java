@@ -1,5 +1,6 @@
 package model;
 
+import constant.ValueConstant;
 import constant.WeightConstant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Graph {
     private Vertex virtualSource;
     private Vertex virtualSink;
 
+    private double[][] cumulativeFlowMatrix;
 
 
 
@@ -159,5 +161,18 @@ public class Graph {
         return L;
     }
 
-
+    public double[][] buildCumulativeFlowAdjacencyMatrix(){
+        double[][] C = new double[vertexes.size()][vertexes.size()];
+        for (Edge e : edges) {
+            Vertex source = e.getSource();
+            Vertex destination = e.getDestination();
+            if (e.getValue(ValueConstant.CUMULATIVE_FLOW) != null) {
+                C[source.getId()][destination.getId()] = e.getValue(ValueConstant.CUMULATIVE_FLOW);
+            }
+            else{
+                C[source.getId()][destination.getId()] = 0.0;
+            }
+        }
+        return C;
+    }
 }

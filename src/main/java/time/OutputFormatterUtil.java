@@ -70,4 +70,32 @@ public class OutputFormatterUtil {
         bw.close();
         fos.close();
     }
+
+
+    public static void writeAverageAdjacencyMatrix(String outputDir, double[][][] a) throws IOException {
+        File theDir = new File(outputDir);
+        if (!theDir.exists()) {
+            theDir.mkdirs();
+        }
+        String outputFileName;
+
+
+        for(int day=0; day<a[2].length; day++) {
+            outputFileName = theDir + "/ADJACENCY_DAY" + day + ".csv";
+            FileOutputStream fos = new FileOutputStream(new File(outputFileName));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+            String row = "";
+            for (int i = 0; i < a[0].length; i++) {
+                row = "";
+
+                for (int j = 0; j < a[0].length; j++) {
+                    row+=a[i][j][day]+" ";
+                }
+                row += "\n";
+                bw.write(row);
+            }
+            bw.close();
+            fos.close();
+        }
+    }
 }
