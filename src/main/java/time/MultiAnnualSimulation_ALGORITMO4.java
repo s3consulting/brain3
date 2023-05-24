@@ -39,7 +39,8 @@ public class MultiAnnualSimulation_ALGORITMO4 {
         Brain3SimulatorALGORITMO4 brain3SimulatorALGORITMO4 = new Brain3SimulatorALGORITMO4(graph);
         Graph augmentedGraph = brain3SimulatorALGORITMO4.getAugmentedGraph();
         CumulativeAdjacencyMatrix cumulativeAdjacencyMatrix = new CumulativeAdjacencyMatrix(augmentedGraph.getVertexes().size());
-
+        String mask = GraphUtil.createFileMask();
+        String adjacencyOutDir = outDir+"/"+graphName+"_"+algoritmo+"_ADJACENCY_"+mask;
         for(int index=0; index<nIterazioni; index++) {
             sourcesWithFailure = new ArrayList<>();
             failedEdges = new ArrayList<>();
@@ -91,7 +92,7 @@ public class MultiAnnualSimulation_ALGORITMO4 {
                 System.out.println();
             }
         }
-        OutputFormatterUtil.writeAverageAdjacencyMatrix(outDir, averageAjacencyMatrix);
+        OutputFormatterUtil.writeAverageAdjacencyMatrix(adjacencyOutDir, averageAjacencyMatrix, numberOfDays);
     }
 
 }

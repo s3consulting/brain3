@@ -72,7 +72,7 @@ public class OutputFormatterUtil {
     }
 
 
-    public static void writeAverageAdjacencyMatrix(String outputDir, double[][][] a) throws IOException {
+    public static void writeAverageAdjacencyMatrix(String outputDir, double[][][] a, int numberOfDays) throws IOException {
         File theDir = new File(outputDir);
         if (!theDir.exists()) {
             theDir.mkdirs();
@@ -80,7 +80,7 @@ public class OutputFormatterUtil {
         String outputFileName;
 
 
-        for(int day=0; day<a[2].length; day++) {
+        for(int day=0; day<numberOfDays; day++) {
             outputFileName = theDir + "/ADJACENCY_DAY" + day + ".csv";
             FileOutputStream fos = new FileOutputStream(new File(outputFileName));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
