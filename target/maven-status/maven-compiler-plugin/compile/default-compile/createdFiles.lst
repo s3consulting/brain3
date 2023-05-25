@@ -58,6 +58,7 @@ montecarlo/RunMontecarloALGORITMO4.class
 mains/TestSaveGraphWithBiggerCapacities.class
 mains/TestMaxFlow.class
 mains/AlgorithmComparisons.class
+time/MultiAnnualSimulation_ALGORITMO2.class
 mains/TestFileSystem.class
 mains/TestBuildMaxFlowPaths1.class
 util/FileObject.class

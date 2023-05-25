@@ -11,18 +11,18 @@ import java.util.Map;
 
 public class MultiAnnualSimulation_ALGORITMO2 {
     public static void main(String[] args) throws IOException {
-        //String dir = args[0];
-        //String outDir = args[1];
-        //Integer nIterazioni = Integer.valueOf(args[2]);
-        //String graphName = args[3];
+        String dir = args[0];
+        String outDir = args[1];
+        Integer nIterazioni = Integer.valueOf(args[2]);
+        String graphName = args[3];
 
         Integer numberOfDays = 365;
         String algoritmo="ALGORITMO_2";
 
-        String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/MULTI_ANNUAL";
-        Integer nIterazioni =10;
-        String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
-        String graphName = "PRAKS_GRAPH_CASE_G";
+        //String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/MULTI_ANNUAL";
+        //Integer nIterazioni =10;
+        //String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
+        //String graphName = "PRAKS_GRAPH_CASE_G";
 
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);;
 
