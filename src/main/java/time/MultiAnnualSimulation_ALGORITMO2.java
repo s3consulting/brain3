@@ -6,11 +6,10 @@ import util.GraphUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MultiAnnualSimulation_ALGORITMO4 {
+public class MultiAnnualSimulation_ALGORITMO2 {
     public static void main(String[] args) throws IOException {
         //String dir = args[0];
         //String outDir = args[1];
@@ -18,7 +17,7 @@ public class MultiAnnualSimulation_ALGORITMO4 {
         //String graphName = args[3];
 
         Integer numberOfDays = 365;
-        String algoritmo="ALGORITMO_4";
+        String algoritmo="ALGORITMO_2";
 
         String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/MULTI_ANNUAL";
         Integer nIterazioni =10;
@@ -33,8 +32,8 @@ public class MultiAnnualSimulation_ALGORITMO4 {
         List<Vertex> sourcesWithFailure = new ArrayList<>();
         List<Edge> failedEdges = new ArrayList<>();
         List<Edge> arcsWithReducedCapacity = new ArrayList<>();
-        Brain3SimulatorALGORITMO4 brain3SimulatorALGORITMO4 = new Brain3SimulatorALGORITMO4(graph);
-        Graph augmentedGraph = brain3SimulatorALGORITMO4.getAugmentedGraph();
+        Brain3SimulatorALGORITMO2 brain3SimulatorALGORITMO2 = new Brain3SimulatorALGORITMO2(graph);
+        Graph augmentedGraph = brain3SimulatorALGORITMO2.getAugmentedGraph();
         CumulativeAdjacencyMatrix cumulativeAdjacencyMatrix = new CumulativeAdjacencyMatrix(augmentedGraph.getVertexes().size());
         String mask = GraphUtil.createFileMask();
         String adjacencyOutDir = outDir+"/"+graphName+"_"+algoritmo+"_ADJACENCY_"+mask;
@@ -48,9 +47,9 @@ public class MultiAnnualSimulation_ALGORITMO4 {
             for(int day=0; day<numberOfDays; day++){
                 graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
                 graph.setName(graphName);
-                brain3SimulatorALGORITMO4 = new Brain3SimulatorALGORITMO4(graph);
+                brain3SimulatorALGORITMO2 = new Brain3SimulatorALGORITMO2(graph);
 
-                augmentedGraph = brain3SimulatorALGORITMO4.getAugmentedGraph();
+                augmentedGraph = brain3SimulatorALGORITMO2.getAugmentedGraph();
 
                 String updateFixedElementsTxt = AnnualSimulationUtil.updateFixedElements(augmentedGraph, day, sourcesWithFailure, failedEdges, arcsWithReducedCapacity);
 
@@ -64,7 +63,7 @@ public class MultiAnnualSimulation_ALGORITMO4 {
                 String injectFailureToPipelineTxt = AnnualSimulationUtil.injectFailureToPipeline(augmentedGraph, day, pipelineFailurePerYear, failedEdges);
 
 
-                brain3SimulatorALGORITMO4.execute();
+                brain3SimulatorALGORITMO2.execute();
 
 
                 Double totalDemand = GraphUtil.getTotalDemand(augmentedGraph);
