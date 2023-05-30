@@ -117,7 +117,10 @@ public class AnnualSimulationUtil {
         List<String> updatedEdges = new ArrayList<>();
 
         for (String edgeKey : pipelineFailurePerYear.keySet()) {
-            if (!failedArcs.contains(edgeKey)) {
+            Optional<Edge> optionalEdge = failedArcs.stream().filter(swf->((swf.getSource().getId()+"_"+swf.getDestination().getId()).equalsIgnoreCase(edgeKey))).findFirst();
+
+
+            if(!optionalEdge.isPresent()){
                 Edge edge = graph.getEdgeMap().get(edgeKey);
                 Double x = pipelineFailurePerYear.get(edgeKey).get(day);
                 Double fr = failureRate.getFailureRate(edge.getType());
@@ -209,8 +212,10 @@ public class AnnualSimulationUtil {
 
         for (Edge edge : affectedEdges) {
             String key = edge.getSource().getId()+"_"+edge.getDestination().getId();
-            Edge arcToBeRemoved = arcsWithReducedCapacity.stream().filter(x->(x.getSource().getId()+"_"+x.getDestination().getId()).equalsIgnoreCase(key)).findFirst().get();
-            arcsWithReducedCapacity.remove(arcToBeRemoved);
+            Optional<Edge> arcToBeRemoved = arcsWithReducedCapacity.stream().filter(x->(x.getSource().getId()+"_"+x.getDestination().getId()).equalsIgnoreCase(key)).findFirst();
+            if(arcToBeRemoved.isPresent()) {
+                arcsWithReducedCapacity.remove(arcToBeRemoved.get());
+            }
         }
         activity += "\nsourcesWithFailure size: " + sourcesWithFailure.size();
         activity += "\narcsWithReducedCapacity size: " + arcsWithReducedCapacity.size();

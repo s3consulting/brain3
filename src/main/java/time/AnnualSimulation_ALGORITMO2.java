@@ -35,6 +35,7 @@ public class AnnualSimulation_ALGORITMO2 {
         //String graphName = "PRAKS_GRAPH_CASE_E";
         //String graphName = "PRAKS_GRAPH_CASE_F";
         //String graphName = "PRAKS_GRAPH_CASE_G";
+        //String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL";
 
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
 
@@ -49,7 +50,7 @@ public class AnnualSimulation_ALGORITMO2 {
 
 
         Graph augmentedGraph;
-        //String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL";
+
         String mask = GraphUtil.createFileMask();
         String cdfOutDir = outDir+"/"+graphName+"_"+algoritmo+"_CDF_"+mask;
         String adjacencyOutputDir = outDir+"/"+graphName+"_"+algoritmo+"_ADJACENCY_"+mask;
