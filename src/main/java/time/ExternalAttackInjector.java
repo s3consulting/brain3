@@ -1,6 +1,6 @@
 package time;
 
-import constant.ReparationTime;
+import constant.CapacityReductionAttack;
 import constant.ReparationTimeAttack;
 import constant.ValueConstant;
 import constant.WeightConstant;
@@ -15,10 +15,11 @@ import java.util.Optional;
 
 public class ExternalAttackInjector {
 
-    public static String injectAttackToSource(Graph graph, int day, ExternalAttackKeeper externalAttackKeeper, List<Vertex> sourcesUnderAttack, List<Vertex> sourcesWithFailure, List<Edge> pipelinesUnderAttack, List<Edge> pipelinesWithReducedCapacityDueToAttack, List<Edge> arcsWithReducedCapacity, List<Edge> failedArcs) {
+    public static String injectAttackToSource(Graph graph, int day, ExternalAttackKeeper externalAttackKeeper, List<Vertex> sourcesUnderAttack, List<Vertex> sourcesWithIntrinsicFailure, List<Edge> pipelinesUnderAttack, List<Edge> pipelinesWithReducedCapacityDueToAttack, List<Edge> arcsWithReducedCapacityDueToIntrinsicFailure, List<Edge> pipelinesWithIntrinsicFailure) {
         String activity = "\nInject Attack To Source";
         Vertex vertexUnderAttack = null;
         String nodeType = "1";
+        CapacityReductionAttack capacityReductionAttack = new CapacityReductionAttack();
         if (externalAttackKeeper.getAttacks().get(day) != null && externalAttackKeeper.getAttacks().get(day).getType().equalsIgnoreCase(nodeType)) {
 
             String name = externalAttackKeeper.getAttacks().get(day).getName();
@@ -26,20 +27,37 @@ public class ExternalAttackInjector {
             if (optionalVertex.isPresent()) {
                 Integer vertexIndexUnderAttack = optionalVertex.get().getId();
                 vertexUnderAttack = graph.getVertex(vertexIndexUnderAttack);
-                Optional<Vertex> nodeWithFailure = sourcesWithFailure.stream().filter(swf -> swf.getId() == vertexIndexUnderAttack).findFirst();
+                Optional<Vertex> nodeWithFailure = sourcesWithIntrinsicFailure.stream().filter(swf -> swf.getId() == vertexIndexUnderAttack).findFirst();
                 Optional<Vertex> nodeUnderAttack = sourcesUnderAttack.stream().filter(swf -> swf.getId() == vertexIndexUnderAttack).findFirst();
 
 
                 if (nodeWithFailure.isPresent()) {
-                    sourcesWithFailure.remove(nodeWithFailure.get());
+                    Vertex vv = null;
+                    for(Vertex v: sourcesWithIntrinsicFailure){
+                        if(v.getId() == vertexIndexUnderAttack){
+                            vv = v;
+                            break;
+                        }
+                    }
+                    if(vv!=null) {
+                        sourcesWithIntrinsicFailure.remove(nodeWithFailure.get());
+                    }
                 }
                 if (!nodeUnderAttack.isPresent()) {
-                    sourcesUnderAttack.add(vertexUnderAttack);
+                    boolean found = false;
+                    for(Vertex v: sourcesUnderAttack){
+                        if(v.getId()==vertexIndexUnderAttack){
+                            found = true;
+                        }
+                    }
+                    if(!found) {
+                        sourcesUnderAttack.add(vertexUnderAttack);
+                    }
                 }
 
                 activity += "\nSOURCE: " + vertexUnderAttack.getName() + ", TYPE: " + vertexUnderAttack.getType() + " is under Attack in day " + day;
                 vertexUnderAttack.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
-                Double percentageReductionOfPipelinesConnected = 0.0;
+                Double percentageReductionOfPipelinesConnected = capacityReductionAttack.getCapacityReduction(vertexUnderAttack.getType());
                 if (vertexUnderAttack.getInEdges() != null) {
                     for (Edge e : vertexUnderAttack.getInEdges()) {
                         e.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
@@ -48,21 +66,62 @@ public class ExternalAttackInjector {
                         activity+="\npipeline " + e.getName() + " has reduced capacity due to " + vertexUnderAttack.getName() + " attack";
                         e.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
                         Integer arcId = e.getId();
-                        Optional<Edge> optionalEdgeWithReduceCapacity = arcsWithReducedCapacity.stream().filter(swf -> swf.getId() == arcId).findFirst();
+                        Optional<Edge> optionalEdgeWithReduceCapacity = arcsWithReducedCapacityDueToIntrinsicFailure.stream().filter(swf -> swf.getId() == arcId).findFirst();
                         Optional<Edge> optionalEdgeWithReduceCapacityDueToAttack = pipelinesWithReducedCapacityDueToAttack.stream().filter(swf -> swf.getId() == arcId).findFirst();
                         Optional<Edge> optionalEdgeUnderAttack = pipelinesUnderAttack.stream().filter(swf -> swf.getId() == arcId).findFirst();
                         Optional<Edge> optionalEdgeFailed = pipelinesUnderAttack.stream().filter(swf -> swf.getId() == arcId).findFirst();
-                        if (!optionalEdgeWithReduceCapacityDueToAttack.isPresent()) {
-                            pipelinesWithReducedCapacityDueToAttack.add(e);
-                        }
+
                         if (optionalEdgeUnderAttack.isPresent()) {
-                            pipelinesUnderAttack.remove(e);
+                            Edge ee = null;
+                            for(Edge e1: pipelinesUnderAttack){
+                                if(e1.getId()==arcId){
+                                    ee=e1;
+                                    break;
+                                }
+                            }
+                            if(ee!=null){
+                              pipelinesUnderAttack.remove(ee);
+                            }
+                            //pipelinesUnderAttack.remove(e);
                         }
                         if (optionalEdgeWithReduceCapacity.isPresent()) {
-                            arcsWithReducedCapacity.remove(e);
+                            Edge ee=null;
+                            for(Edge e1:arcsWithReducedCapacityDueToIntrinsicFailure){
+                                if(e1.getId()==arcId){
+                                    ee=e1;
+                                    break;
+                                }
+                            }
+                            if(ee!=null) {
+                                arcsWithReducedCapacityDueToIntrinsicFailure.remove(ee);
+                            }
+                            //arcsWithReducedCapacityDueToIntrinsicFailure.remove(e);
                         }
                         if (optionalEdgeFailed.isPresent()) {
-                            failedArcs.remove(e);
+                            Edge ee = null;
+                            for(Edge e1: pipelinesWithIntrinsicFailure){
+                              if(e1.getId()==arcId){
+                                  ee=e1;
+                                  break;
+                              }
+                            }
+                            if(ee!=null){
+                                pipelinesWithIntrinsicFailure.remove(ee);
+                            }
+                            //pipelinesWithIntrinsicFailure.remove(e);
+                        }
+                        if (!optionalEdgeWithReduceCapacityDueToAttack.isPresent()) {
+                            boolean found=false;
+
+                            for(Edge e1: pipelinesWithReducedCapacityDueToAttack) {
+                                if (e1.getId() == arcId) {
+                                    found = true;
+                                }
+                            }
+                            if(!found){
+                                pipelinesWithReducedCapacityDueToAttack.add(e);
+                            }
+                            //pipelinesWithReducedCapacityDueToAttack.add(e);
                         }
                     }
                 }
@@ -74,21 +133,63 @@ public class ExternalAttackInjector {
                         activity+="\npipeline " + e.getName() + " has reduced capacity due to " + vertexUnderAttack.getName() + " attack";
                         e.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
                         Integer arcId = e.getId();
-                        Optional<Edge> optionalEdgeWithReduceCapacity = arcsWithReducedCapacity.stream().filter(swf -> swf.getId() == arcId).findFirst();
+                        Optional<Edge> optionalEdgeWithReduceCapacity = arcsWithReducedCapacityDueToIntrinsicFailure.stream().filter(swf -> swf.getId() == arcId).findFirst();
                         Optional<Edge> optionalEdgeWithReduceCapacityDueToAttack = pipelinesWithReducedCapacityDueToAttack.stream().filter(swf -> swf.getId() == arcId).findFirst();
                         Optional<Edge> optionalEdgeUnderAttack = pipelinesUnderAttack.stream().filter(swf -> swf.getId() == arcId).findFirst();
                         Optional<Edge> optionalEdgeFailed = pipelinesUnderAttack.stream().filter(swf -> swf.getId() == arcId).findFirst();
-                        if (!optionalEdgeWithReduceCapacityDueToAttack.isPresent()) {
-                            pipelinesWithReducedCapacityDueToAttack.add(e);
-                        }
+
+
                         if (optionalEdgeUnderAttack.isPresent()) {
-                            pipelinesUnderAttack.remove(e);
+                            Edge ee = null;
+                            for(Edge e1: pipelinesUnderAttack){
+                                if(e1.getId()==arcId){
+                                    ee=e1;
+                                    break;
+                                }
+                            }
+                            if(ee!=null){
+                                pipelinesUnderAttack.remove(ee);
+                            }
+                            //pipelinesUnderAttack.remove(e);
                         }
                         if (optionalEdgeWithReduceCapacity.isPresent()) {
-                            arcsWithReducedCapacity.remove(e);
+                            Edge ee=null;
+                            for(Edge e1:arcsWithReducedCapacityDueToIntrinsicFailure){
+                                if(e1.getId()==arcId){
+                                    ee=e1;
+                                    break;
+                                }
+                            }
+                            if(ee!=null) {
+                                arcsWithReducedCapacityDueToIntrinsicFailure.remove(ee);
+                            }
+                            //arcsWithReducedCapacityDueToIntrinsicFailure.remove(e);
                         }
                         if (optionalEdgeFailed.isPresent()) {
-                            failedArcs.remove(e);
+                            Edge ee = null;
+                            for(Edge e1: pipelinesWithIntrinsicFailure){
+                                if(e1.getId()==arcId){
+                                    ee=e1;
+                                    break;
+                                }
+                            }
+                            if(ee!=null){
+                                pipelinesWithIntrinsicFailure.remove(ee);
+                            }
+                            //pipelinesWithIntrinsicFailure.remove(e);
+                        }
+                        if (!optionalEdgeWithReduceCapacityDueToAttack.isPresent()) {
+                            boolean found=false;
+
+                            for(Edge e1: pipelinesWithReducedCapacityDueToAttack) {
+                                if (e1.getId() == arcId) {
+                                    found = true;
+                                }
+                            }
+                            if(!found){
+                                pipelinesWithReducedCapacityDueToAttack.add(e);
+                            }
+                            //pipelinesWithReducedCapacityDueToAttack.add(e);
                         }
                     }
                 }
@@ -101,7 +202,7 @@ public class ExternalAttackInjector {
 
     }
 
-    public static String injectAttackToPipeline(Graph graph, int day, ExternalAttackKeeper externalAttackKeeper, List<Edge> pipelinesUnderAttack, List<Edge> pipelinesWithReducedCapacityDueToAttack, List<Edge> arcsWithReducedCapacity, List<Edge> failedArcs) {
+    public static String injectAttackToPipeline(Graph graph, int day, ExternalAttackKeeper externalAttackKeeper, List<Edge> pipelinesUnderAttack, List<Edge> pipelinesWithReducedCapacityDueToAttack, List<Edge> arcsWithReducedCapacityDueToIntrinsicFailure, List<Edge> pipelinesWithIntrinsicFailure) {
         Edge edge = null;
         String activity = "\nInject Attacks To Pipeline";
         String arcType = "0";
@@ -114,24 +215,62 @@ public class ExternalAttackInjector {
                 Integer edgeIndexUnderAttack = optionalEdge.get().getId();
                 edge = graph.getEdge(edgeIndexUnderAttack);
                 List<String> updatedEdges = new ArrayList<>();
-                Optional<Edge> optionalEdgeWithReducedCapacity = arcsWithReducedCapacity.stream().filter(swf -> swf.getId() == edgeIndexUnderAttack).findFirst();
-                Optional<Edge> optionalEdgeFailed = failedArcs.stream().filter(swf -> swf.getId() == edgeIndexUnderAttack).findFirst();
+                Optional<Edge> optionalEdgeWithReducedCapacity = arcsWithReducedCapacityDueToIntrinsicFailure.stream().filter(swf -> swf.getId() == edgeIndexUnderAttack).findFirst();
+                Optional<Edge> optionalEdgeFailed = pipelinesWithIntrinsicFailure.stream().filter(swf -> swf.getId() == edgeIndexUnderAttack).findFirst();
                 Optional<Edge> optionalEdgeUnderAttack = pipelinesUnderAttack.stream().filter(swf -> swf.getId() == edgeIndexUnderAttack).findFirst();
                 Optional<Edge> optionalEdgeWithReducedCapacityDueToAttack = pipelinesWithReducedCapacityDueToAttack.stream().filter(swf -> swf.getId() == edgeIndexUnderAttack).findFirst();
 
 
 
                 if (optionalEdgeWithReducedCapacityDueToAttack.isPresent()) {
-                    pipelinesWithReducedCapacityDueToAttack.remove(optionalEdgeWithReducedCapacity.get());
+                    Edge ee = null;
+                    for(Edge e: pipelinesWithReducedCapacityDueToAttack){
+                        if(e.getId()==edgeIndexUnderAttack){
+                            ee = e;
+                            break;
+                        }
+                    }
+                    if(ee!=null) {
+                        pipelinesWithReducedCapacityDueToAttack.remove(ee);
+                    }
+                    //pipelinesWithReducedCapacityDueToAttack.remove(optionalEdgeWithReducedCapacity.get());
                 }
                 if (optionalEdgeWithReducedCapacity.isPresent()) {
-                    arcsWithReducedCapacity.remove(optionalEdgeWithReducedCapacity.get());
+                    Edge ee = null;
+                    for(Edge e:arcsWithReducedCapacityDueToIntrinsicFailure){
+                        if(e.getId()==edgeIndexUnderAttack){
+                            ee = e;
+                            break;
+                        }
+                    }
+                    if(ee!=null) {
+                        arcsWithReducedCapacityDueToIntrinsicFailure.remove(ee);
+                    }
+                    //arcsWithReducedCapacityDueToIntrinsicFailure.remove(optionalEdgeWithReducedCapacity.get());
                 }
                 if (optionalEdgeFailed.isPresent()) {
-                    failedArcs.remove(optionalEdgeWithReducedCapacity.get());
+                    Edge ee=null;
+                    for(Edge e: pipelinesWithIntrinsicFailure){
+                       if(e.getId()==edgeIndexUnderAttack){
+                           ee = e;
+                           break;
+                       }
+                    }
+                    if(ee!=null) {
+                        pipelinesWithIntrinsicFailure.remove(ee);
+                    }
+                    //pipelinesWithIntrinsicFailure.remove(optionalEdgeWithReducedCapacity.get());
                 }
                 if (!optionalEdgeUnderAttack.isPresent()) {
-                    pipelinesUnderAttack.add(edge);
+                    boolean found=false;
+                    for(Edge e: pipelinesUnderAttack){
+                        if(e.getId()==edgeIndexUnderAttack){
+                            found = true;
+                        }
+                    }
+                    if(!found) {
+                        pipelinesUnderAttack.add(edge);
+                    }
                 }
 
                 activity += "\nPipeline " + edge.getName() + " is under Attack in day: " + day;
@@ -141,7 +280,7 @@ public class ExternalAttackInjector {
                 edge.setWeight(WeightConstant.CAPACITY, 0.0);
                 edge.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
                 updatedEdges.add(edgeKey);
-                //failedArcs.add(edge);
+                //pipelinesWithIntrinsicFailure.add(edge);
                 edge.setValue(ValueConstant.REDUCED_CAPACITY, 0.0);
                 String edgeKey1 = edgeKey.split("_")[1] + "_" + edgeKey.split("_")[0];
                 Edge edge1 = graph.getEdgeMap().get(edgeKey1);
@@ -154,7 +293,7 @@ public class ExternalAttackInjector {
                     edge1.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
                     edge1.setValue(ValueConstant.REDUCED_CAPACITY, 0.0);
                     updatedEdges.add(edgeKey1);
-                    //failedArcs.add(edge1);
+                    //pipelinesWithIntrinsicFailure.add(edge1);
                     pipelinesUnderAttack.add(edge1);
                 }
             }

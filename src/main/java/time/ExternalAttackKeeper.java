@@ -43,9 +43,9 @@ public class ExternalAttackKeeper {
     private Integer addRandomDelta(Integer day) {
         Random r = new Random();
         Integer dd = r.nextInt(delta);
-        Integer nn = r.nextInt(1);
+        Integer nn = r.nextInt(10);
         Integer sign =1;
-        if(nn==0){
+        if(nn<5){
             sign = -1;
         }
         return day + sign * dd;

@@ -15,12 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnnualSimulation_FAILS_AND_ATTACK_ALGORITMO2 {
+public class AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2 {
     public static void main(String[] args) throws GraphException, IOException {
-        //AnnualSimulationUtil.checkParametersAnnualSimulation(args, 3);
+        //IntrinsicFaultInjector.checkParametersAnnualSimulation(args, 3);
         //String dir = args[0];
         //String outDir = args[1];
         //String graphName = args[2];
+        //String attackDir = args[3]
 
 
         String algoritmo="ALGORITMO_2";
@@ -31,17 +32,19 @@ public class AnnualSimulation_FAILS_AND_ATTACK_ALGORITMO2 {
         String dir = "/Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS";
         String graphName = "PRAKS_GRAPH_CASE_G";
         String outDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL_FAILS_ATTACK";
+        String attackDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/TELEGRAM/";
+        String attackFile = "attacks.csv";
 
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
 
         Map<String, Map<String, Double>> CDF = new HashMap<>();
 
-        Map<Integer, List<Double>> sourceFailurePerYear = AnnualSimulationUtil.generateFailureOnSourcePerYear(graph);
-        Map<String, List<Double>> pipelineFailurePerYear = AnnualSimulationUtil.generateFailureOnPipelinePerYear(graph);
+        Map<Integer, List<Double>> sourceFailurePerYear = IntrinsicFaultInjector.generateFailureOnSourcePerYear(graph);
+        Map<String, List<Double>> pipelineFailurePerYear = IntrinsicFaultInjector.generateFailureOnPipelinePerYear(graph);
 
-        List<Vertex> sourcesWithFailure = new ArrayList<>();
-        List<Edge> failedEdges = new ArrayList<>();
-        List<Edge> arcsWithReducedCapacity = new ArrayList<>();
+        List<Vertex> sourcesWithIntrinsicFailure = new ArrayList<>();
+        List<Edge> arcsWithIntrinsicFailure = new ArrayList<>();
+        List<Edge> arcsWithReducedCapacityDueToIntrinsicFailure = new ArrayList<>();
 
         List<Vertex> sourceUnderAttack = new ArrayList<>();
         List<Edge> pipelinesWithReducedCapacityDueToAttack = new ArrayList<>();
@@ -57,8 +60,8 @@ public class AnnualSimulation_FAILS_AND_ATTACK_ALGORITMO2 {
         List<Double> satisfiedSinksPercentage = new ArrayList<>();
         FileObject fileObject = FileSystemUtil.openFileObject(outDir, graphName+"_"+algoritmo);
 
-        String attackDir = "/Users/cristianocimino/NetBeansProjects/generic-graph/TELEGRAM/";
-        String attackFile = "attacks.csv";
+
+
         ExternalAttackKeeper externalAttackKeeper= new ExternalAttackKeeper(2);
         externalAttackKeeper.loadAttackFromFile(attackDir, attackFile);
 
@@ -77,22 +80,22 @@ public class AnnualSimulation_FAILS_AND_ATTACK_ALGORITMO2 {
             String propagateAttackTxt = ExternalAttackInjector.propagateAttacks(augmentedGraph, day, sourceUnderAttack, pipelinesUnderAttack, pipelinesWithReducedCapacityDueToAttack);
             fileObject.getBw().write(propagateAttackTxt);
 
-            String updateFixedElementsTxt = AnnualSimulationUtil.updateFixedElements(augmentedGraph, day, sourcesWithFailure, failedEdges, arcsWithReducedCapacity);
+            String updateFixedElementsTxt = IntrinsicFaultInjector.updateFixedElements(augmentedGraph, day, sourcesWithIntrinsicFailure, arcsWithIntrinsicFailure, arcsWithReducedCapacityDueToIntrinsicFailure);
             fileObject.getBw().write(updateFixedElementsTxt);
 
-            String propagateFailuresTxt = AnnualSimulationUtil.propagateFailures(augmentedGraph, day, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
+            String propagateFailuresTxt = IntrinsicFaultInjector.propagateFailures(augmentedGraph, day, sourcesWithIntrinsicFailure, arcsWithReducedCapacityDueToIntrinsicFailure, arcsWithIntrinsicFailure);
             fileObject.getBw().write(propagateFailuresTxt);
 
-            String injectFailureToSourceTxt = AnnualSimulationUtil.injectFailureToSource(augmentedGraph, day, sourceFailurePerYear, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
+            String injectFailureToSourceTxt = IntrinsicFaultInjector.injectFailureToSource(augmentedGraph, day, sourceFailurePerYear, sourcesWithIntrinsicFailure, arcsWithReducedCapacityDueToIntrinsicFailure, arcsWithIntrinsicFailure);
             fileObject.getBw().write(injectFailureToSourceTxt);
 
-            String injectFailureToPipelineTxt = AnnualSimulationUtil.injectFailureToPipeline(augmentedGraph, day, pipelineFailurePerYear, failedEdges);
+            String injectFailureToPipelineTxt = IntrinsicFaultInjector.injectFailureToPipeline(augmentedGraph, day, pipelineFailurePerYear, arcsWithIntrinsicFailure, arcsWithReducedCapacityDueToIntrinsicFailure);
             fileObject.getBw().write(injectFailureToPipelineTxt);
 
-            String injectAttackToSourcesTxt = ExternalAttackInjector.injectAttackToSource(augmentedGraph, day, externalAttackKeeper, sourceUnderAttack, sourcesWithFailure, pipelinesUnderAttack, pipelinesWithReducedCapacityDueToAttack, arcsWithReducedCapacity, failedEdges);
+            String injectAttackToSourcesTxt = ExternalAttackInjector.injectAttackToSource(augmentedGraph, day, externalAttackKeeper, sourceUnderAttack, sourcesWithIntrinsicFailure, pipelinesUnderAttack, pipelinesWithReducedCapacityDueToAttack, arcsWithReducedCapacityDueToIntrinsicFailure, arcsWithIntrinsicFailure);
             fileObject.getBw().write(injectAttackToSourcesTxt);
 
-            String injectAttackToPipelineTxt = ExternalAttackInjector.injectAttackToPipeline(augmentedGraph, day, externalAttackKeeper, pipelinesUnderAttack, pipelinesWithReducedCapacityDueToAttack, arcsWithReducedCapacity, failedEdges);
+            String injectAttackToPipelineTxt = ExternalAttackInjector.injectAttackToPipeline(augmentedGraph, day, externalAttackKeeper, pipelinesUnderAttack, pipelinesWithReducedCapacityDueToAttack, arcsWithReducedCapacityDueToIntrinsicFailure, arcsWithIntrinsicFailure);
             fileObject.getBw().write(injectAttackToPipelineTxt);
 
 

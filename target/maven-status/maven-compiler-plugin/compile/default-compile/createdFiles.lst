@@ -18,10 +18,12 @@ time/OutputFormatterUtil.class
 mains/TestBrain3ALGORITMO1.class
 time/AnnualSimulation_ALGORITMO4.class
 util/FordFulkersonUtil.class
+time/ExternalAttackKeeper$AttackData.class
 util/GraphUtil_OLD.class
 constant/VertexConstant.class
 mains/TestDijkstraWithCapacity.class
 mains/PraksCaseStudyGraphBuilder.class
+time/ExternalAttackKeeper.class
 model/DijkstraResponse.class
 model/Brain3SimulatorALGORITMO2.class
 mains/TestBrain3ALGORITMO4.class
@@ -33,7 +35,9 @@ montecarlo/RunMontecarloALGORITMO3.class
 mains/TestList.class
 constant/FailureRate.class
 montecarlo/FailureRandomGenerator.class
+time/AnnualSimulation_FAILS_AND_ATTACK_ALGORITMO2.class
 constant/ValueConstant.class
+constant/ReparationTimeAttack.class
 model/Graph.class
 util/GenericUtil.class
 time/ExternalAttackInjector.class
@@ -63,9 +67,9 @@ mains/TestFileSystem.class
 mains/TestBuildMaxFlowPaths1.class
 util/FileObject.class
 mains/CasiParticolariGraphBuilder.class
+time/IntrinsicFaultInjector.class
 montecarlo/FailedElements.class
 mains/TestMaxFlowFromVStoVT.class
-time/AnnualSimulationUtil.class
 model/Brain3SimulatorALGORITMO3.class
 mains/TestAugmentedGraphForMultipleSourceAndSink.class
 mains/TestDijikstraOnPrakGraph.class

@@ -26,8 +26,8 @@ public class MultiAnnualSimulation_ALGORITMO2 {
 
         Graph graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);;
 
-        Map<Integer, List<Double>> sourceFailurePerYear = AnnualSimulationUtil.generateFailureOnSourcePerYear(graph);
-        Map<String, List<Double>> pipelineFailurePerYear = AnnualSimulationUtil.generateFailureOnPipelinePerYear(graph);
+        Map<Integer, List<Double>> sourceFailurePerYear = IntrinsicFaultInjector.generateFailureOnSourcePerYear(graph);
+        Map<String, List<Double>> pipelineFailurePerYear = IntrinsicFaultInjector.generateFailureOnPipelinePerYear(graph);
 
         List<Vertex> sourcesWithFailure = new ArrayList<>();
         List<Edge> failedEdges = new ArrayList<>();
@@ -42,8 +42,8 @@ public class MultiAnnualSimulation_ALGORITMO2 {
             failedEdges = new ArrayList<>();
             arcsWithReducedCapacity = new ArrayList<>();
 
-            sourceFailurePerYear = AnnualSimulationUtil.generateFailureOnSourcePerYear(graph);
-            pipelineFailurePerYear = AnnualSimulationUtil.generateFailureOnPipelinePerYear(graph);
+            sourceFailurePerYear = IntrinsicFaultInjector.generateFailureOnSourcePerYear(graph);
+            pipelineFailurePerYear = IntrinsicFaultInjector.generateFailureOnPipelinePerYear(graph);
             for(int day=0; day<numberOfDays; day++){
                 graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
                 graph.setName(graphName);
@@ -51,16 +51,16 @@ public class MultiAnnualSimulation_ALGORITMO2 {
 
                 augmentedGraph = brain3SimulatorALGORITMO2.getAugmentedGraph();
 
-                String updateFixedElementsTxt = AnnualSimulationUtil.updateFixedElements(augmentedGraph, day, sourcesWithFailure, failedEdges, arcsWithReducedCapacity);
+                String updateFixedElementsTxt = IntrinsicFaultInjector.updateFixedElements(augmentedGraph, day, sourcesWithFailure, failedEdges, arcsWithReducedCapacity);
 
 
-                String propagateFailuresTxt = AnnualSimulationUtil.propagateFailures(augmentedGraph, day, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
+                String propagateFailuresTxt = IntrinsicFaultInjector.propagateFailures(augmentedGraph, day, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
 
 
-                String injectFailureToSourceTxt = AnnualSimulationUtil.injectFailureToSource(augmentedGraph, day, sourceFailurePerYear, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
+                String injectFailureToSourceTxt = IntrinsicFaultInjector.injectFailureToSource(augmentedGraph, day, sourceFailurePerYear, sourcesWithFailure, arcsWithReducedCapacity, failedEdges);
 
 
-                String injectFailureToPipelineTxt = AnnualSimulationUtil.injectFailureToPipeline(augmentedGraph, day, pipelineFailurePerYear, failedEdges);
+                String injectFailureToPipelineTxt = IntrinsicFaultInjector.injectFailureToPipeline(augmentedGraph, day, pipelineFailurePerYear, failedEdges, arcsWithReducedCapacity);
 
 
                 brain3SimulatorALGORITMO2.execute();
