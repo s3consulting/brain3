@@ -22,7 +22,7 @@ public class HeavyFaultInjector {
             if (optionalVertex.isPresent()) {
                 Integer vertexIndexWithHeavyFault = optionalVertex.get().getId();
                 vertexWithHeavyFault = graph.getVertex(vertexIndexWithHeavyFault);
-                
+
 
             }
         }

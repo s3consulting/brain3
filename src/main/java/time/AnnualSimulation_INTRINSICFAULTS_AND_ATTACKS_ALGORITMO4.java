@@ -1,10 +1,7 @@
 package time;
 
 import exception.GraphException;
-import model.Brain3SimulatorALGORITMO2;
-import model.Edge;
-import model.Graph;
-import model.Vertex;
+import model.*;
 import util.FileObject;
 import util.FileSystemUtil;
 import util.GraphUtil;
@@ -15,7 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2 {
+public class AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO4 {
+
     public static void main(String[] args) throws GraphException, IOException {
         AnnualSimulationUtil.checkParametersAnnualSimulation(args, 4);
         String dir = args[0];
@@ -24,7 +22,7 @@ public class AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2 {
         String attackDir = args[3];
 
 
-        String algoritmo="ALGORITMO_2";
+        String algoritmo="ALGORITMO_4";
 
         int numberOfSamples = 365;
         int summation = 1;
@@ -70,9 +68,9 @@ public class AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2 {
             System.out.println("DAY: " + day);
             graph = FileSystemUtil.loadGraphFromFile1(graphName, dir);
             graph.setName(graphName);
-            Brain3SimulatorALGORITMO2 brain3SimulatorALGORITMO2 = new Brain3SimulatorALGORITMO2(graph);
+            Brain3SimulatorALGORITMO4 brain3SimulatorALGORITMO4 = new Brain3SimulatorALGORITMO4(graph);
 
-            augmentedGraph = brain3SimulatorALGORITMO2.getAugmentedGraph();
+            augmentedGraph = brain3SimulatorALGORITMO4.getAugmentedGraph();
             fileObject.getBw().write("\n---------------------------------- DAY " + day + "\n");
 
             String updateFixedElementFromAttackTxt = ExternalAttackInjector.updateFixedElements(augmentedGraph, day, sourceUnderAttack, pipelinesUnderAttack, pipelinesWithReducedCapacityDueToAttack);
@@ -100,11 +98,11 @@ public class AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2 {
             fileObject.getBw().write(injectAttackToPipelineTxt);
 
 
-            brain3SimulatorALGORITMO2.execute();
+            brain3SimulatorALGORITMO4.execute();
             GraphUtil.showRealDestinationsOrdered(graph);
 
 
-            fileObject.getBw().write(GraphUtil.getResultsAsString(brain3SimulatorALGORITMO2.getAugmentedGraph()));
+            fileObject.getBw().write(GraphUtil.getResultsAsString(brain3SimulatorALGORITMO4.getAugmentedGraph()));
 
             Double totalDemand = GraphUtil.getTotalDemand(augmentedGraph);
             Double netSinkFlow = GraphUtil.getNetFlowOnSinks(augmentedGraph);
