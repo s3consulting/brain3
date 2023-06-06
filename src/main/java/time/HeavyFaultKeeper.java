@@ -24,10 +24,12 @@ public class HeavyFaultKeeper {
         String line;
 
         while ((line = reader.readLine()) != null) {
-            String[] data = line.split("\t");
-            Integer day = Integer.valueOf(data[0]);
-            HeavyFaultData heavyFaultData = new HeavyFaultData(data[1], data[2]);
-            heavyFaults.put(day, heavyFaultData);
+            if(!line.equalsIgnoreCase("")) {
+                String[] data = line.split(",");
+                Integer day = Integer.valueOf(data[0]);
+                HeavyFaultData heavyFaultData = new HeavyFaultData(data[1], data[2]);
+                heavyFaults.put(day, heavyFaultData);
+            }
         }
         reader.close();
     }

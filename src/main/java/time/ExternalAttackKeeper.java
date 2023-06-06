@@ -32,10 +32,12 @@ public class ExternalAttackKeeper {
         String line;
 
         while ((line = reader.readLine()) != null) {
-            String[] data = line.split("\t");
-            Integer day = Integer.valueOf(data[0]);
-            AttackData attackData = new AttackData(data[1], data[2]);
-            attacks.put(addRandomDelta(day), attackData);
+            if(!line.trim().equalsIgnoreCase("")) {
+                String[] data = line.split("\t");
+                Integer day = Integer.valueOf(data[0]);
+                AttackData attackData = new AttackData(data[1], data[2]);
+                attacks.put(addRandomDelta(day), attackData);
+            }
         }
         reader.close();
     }

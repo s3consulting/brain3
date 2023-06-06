@@ -9,6 +9,7 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/util/FileSystemUtil.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/model/Graph.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO4.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/ExternalAttackGenerator.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/ReparationTimeAttack.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/GraphBuilder.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/model/Edge.java
@@ -18,6 +19,8 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/util/GenericUtil.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/VertexConstant.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestPraksCaseStudyGraphBuilder.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/GlobalAnnualSimulation_ALGORITMO2.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/IntrinsicFaultGenerator.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestMaxFlow.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestMaxFlowFromFileMinimo.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/util/CentralityUtil.java
@@ -38,7 +41,9 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestBrain3ALGORITMO4.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/ProbabilityDensityFunctions.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/AnnualSimulation_ALGORITMO2.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/finale/GenericAnnualSimulator_ALGORITMO2.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/CapacityReductionCostant.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/finale/RunGenericAnnualSimulator_ALGORITMO2.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/ExternalAttackInjector.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestSaveGraphWithBiggerCapacities.java
@@ -59,6 +64,7 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/RunMontecarloALGORITMO1.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/AnnualSimulation_Montecarlo_ALGORITMO2.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/FailureInjector.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/HeavyFaultGenerator.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/model/MaxFlowResponse.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestCasiParticolariGraphBuilderWriteToFile.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/model/Brain3SimulatorALGORITMO4.java
@@ -79,7 +85,6 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/DistributionConstant.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/model/MaxFlowReduced.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestAttackInjector.java
-/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/HeavyFaultInjector.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/ReparationTimeConstant.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/model/Brain3SimulatorALGORITMO2.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestAugmentedGraphForMultipleSourceAndSink.java

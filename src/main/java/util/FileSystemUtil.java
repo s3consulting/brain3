@@ -291,6 +291,27 @@ public class FileSystemUtil {
         return fileObject;
     }
 
+    public static FileObject openFileObject(String directoryName, String fileName, int iteration) throws FileNotFoundException {
+
+        String mask = GraphUtil.createFileMask();
+        //String outputFileName = fileName+"__"+date.toString();
+        String outputFileName = fileName+"_ITERAZIONI_ITERATION_"+iteration+"___"+mask;
+
+        String newDir = directoryName + "/" + outputFileName;
+        File theDir = new File(newDir);
+        if (!theDir.exists()) {
+            theDir.mkdirs();
+        }
+
+        String resultName = newDir + "/" + outputFileName + "RESULT.csv";
+        FileOutputStream fos = new FileOutputStream(new File(resultName));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+        FileObject fileObject = new FileObject();
+        fileObject.setBw(bw);
+        fileObject.setFos(fos);
+        return fileObject;
+    }
+
     public static void closeFileObject(FileObject fileObject) throws IOException {
         fileObject.getBw().close();
         fileObject.getFos().close();

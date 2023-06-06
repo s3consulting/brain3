@@ -1,5 +1,7 @@
 package time;
 
+import java.io.IOException;
+
 public class CumulativeAdjacencyMatrix {
 
     private double[][][] matrix;
@@ -7,7 +9,7 @@ public class CumulativeAdjacencyMatrix {
     private final int numberOfDays = 365;
 
 
-    CumulativeAdjacencyMatrix(int n) {
+    public CumulativeAdjacencyMatrix(int n) {
         numberOfVertices = n;
         matrix = new double[numberOfVertices][numberOfVertices][numberOfDays];
         resetMatrix();
@@ -29,7 +31,7 @@ public class CumulativeAdjacencyMatrix {
             for (int j = 0; j < numberOfVertices; j++) {
                 matrix[i][j][d] += a[i][j];
                 if(matrix[i][j][d]>0){
-                    System.out.println("::::");
+
                 }
             }
         }
@@ -56,4 +58,12 @@ public class CumulativeAdjacencyMatrix {
             System.out.println();
         }
     }
+
+    public void writeAverageAdjacencyMatrix(String averageAdjacencyOutputDir, int numberOfIterations, int numberOfDays) throws IOException {
+        double[][][] averageAjacencyMatrix = arithmeticAverage(numberOfIterations);
+        System.out.println("END");
+        OutputFormatterUtil.writeAverageAdjacencyMatrix(averageAdjacencyOutputDir, averageAjacencyMatrix, numberOfDays);
+
+    }
+
 }

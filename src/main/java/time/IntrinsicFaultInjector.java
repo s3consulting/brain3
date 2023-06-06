@@ -54,7 +54,7 @@ public class IntrinsicFaultInjector {
         return pipelineDailyFailure;
     }
 
-    public static String injectFailureToSource(Graph graph, Integer day, Map<Integer, List<Double>> sourceFailurePerYear, List<Vertex> sourcesWithIntrinsicFailure, List<Edge> arcsWithReducedCapacityDueToIntrinsicFault, List<Edge> pipelinesWithIntrisicFault) {
+    public static String injectFailureToSource(Graph graph, Integer day, Map<Integer, List<Double>> sourceFailurePerYear, List<Vertex> sourcesWithIntrinsicFailure, List<Edge> arcsWithReducedCapacityDueToIntrinsicFault, List<Edge> pipelinesWithIntrinsicFault) {
         String activity = "\nInject Intrinsic Failure To Source";
         FailureRate failureRate = new FailureRate();
         CapacityReductionIntrinsicFault capacityReductionIntrinsicFault = new CapacityReductionIntrinsicFault();
