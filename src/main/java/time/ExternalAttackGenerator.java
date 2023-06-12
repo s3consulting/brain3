@@ -204,4 +204,105 @@ public class ExternalAttackGenerator {
         return activity;
     }
 
+
+    public static String injectAttackMultipleToSource(Graph graph, int day, ExternalAttackMultipleKeeper externalAttackKeeper, List<Vertex> sourcesWithAttack, List<Edge> arcsWithReducedCapacityDueToAttack) {
+        String activity = "\nInject Attack Multiple To Source";
+        Vertex vertexWithAttack = null;
+        String nodeType = "1";
+        CapacityReductionAttack capacityReductionAttack = new CapacityReductionAttack();
+        if (externalAttackKeeper.getAttacks().get(day) != null) {
+            for(MultipleAttackData multipleAttackData: externalAttackKeeper.getAttacks().get(day)) {
+                if(multipleAttackData.getType().equalsIgnoreCase(nodeType)) {
+                    String name = multipleAttackData.getName();
+                    Optional<Vertex> optionalVertex = graph.getVertexes().stream().filter(n -> n.getName().equalsIgnoreCase(name)).findFirst();
+                    if (optionalVertex.isPresent()) {
+                        Integer vertexIndexWithAttack = optionalVertex.get().getId();
+                        vertexWithAttack = graph.getVertex(vertexIndexWithAttack);
+                        //se un heavy fault non è presente allora possiamo inserirlo
+                        Vertex previousVertexWithAttack = AnnualSimulationUtil.extractVertexById(sourcesWithAttack, vertexIndexWithAttack);
+                        if (previousVertexWithAttack == null) {
+                            sourcesWithAttack.add(vertexWithAttack);
+                        }
+                        activity += "\nSource " + vertexWithAttack.getName() + " is under Attack in day: " + day;
+                        vertexWithAttack.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                        Double percentageReductionOfPipelinesConnected = capacityReductionAttack.getCapacityReduction(vertexWithAttack.getType());
+                        if (vertexWithAttack.getInEdges() != null) {
+                            for (Edge e : vertexWithAttack.getInEdges()) {
+                                Edge ee = AnnualSimulationUtil.extractEdgeByName(arcsWithReducedCapacityDueToAttack, e.getName());
+                                if (ee == null) {
+                                    arcsWithReducedCapacityDueToAttack.add(e);
+                                }
+                                e.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                                e.setWeight(WeightConstant.ORIGINAL_CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY) * percentageReductionOfPipelinesConnected);
+                                e.setWeight(WeightConstant.CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY));
+                                activity += "\npipeline " + e.getName() + " has reduced capacity due to " + vertexWithAttack.getName() + " Attack";
+                                e.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
+                            }
+                        }
+                        if (vertexWithAttack.getOutEdges() != null) {
+                            for (Edge e : vertexWithAttack.getOutEdges()) {
+                                Edge ee = AnnualSimulationUtil.extractEdgeByName(arcsWithReducedCapacityDueToAttack, e.getName());
+                                if (ee == null) {
+                                    arcsWithReducedCapacityDueToAttack.add(e);
+                                }
+                                e.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                                e.setWeight(WeightConstant.ORIGINAL_CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY) * percentageReductionOfPipelinesConnected);
+                                e.setWeight(WeightConstant.CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY));
+                                activity += "\npipeline " + e.getName() + " has reduced capacity due to " + vertexWithAttack.getName() + " Attack";
+                                e.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return activity;
+    }
+
+    public static String injectAttackMultipleToPipeline(Graph graph, int day, ExternalAttackMultipleKeeper externalAttackKeeper, List<Edge> pipelinesWithAttack) {
+        String activity = "\nInject Attack To Pipeline";
+        String arcType = "0";
+        CapacityReductionAttack capacityReductionAttack = new CapacityReductionAttack();
+
+        if (externalAttackKeeper.getAttacks().get(day) != null) {
+            for(MultipleAttackData multipleAttackData: externalAttackKeeper.getAttacks().get(day)) {
+                if(multipleAttackData.getType().equalsIgnoreCase(arcType)) {
+                    String name = multipleAttackData.getName();
+
+                    Optional<Edge> optionalEdge = graph.getEdges().stream().filter(n -> n.getName().equalsIgnoreCase(name)).findFirst();
+                    if (optionalEdge.isPresent()) {
+                        Integer edgeIndexWithAttack = optionalEdge.get().getId();
+                        Edge edgeWithAttack = graph.getEdge(edgeIndexWithAttack);
+
+                        Edge previousEdgeWithAttack = AnnualSimulationUtil.extractEdgeByName(pipelinesWithAttack, name);
+                        if (previousEdgeWithAttack == null) {
+                            pipelinesWithAttack.add(edgeWithAttack);
+                        }
+                        Double percentageReductionOfPipelinesConnected = capacityReductionAttack.getCapacityReduction(edgeWithAttack.getType());
+                        edgeWithAttack.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                        edgeWithAttack.setWeight(WeightConstant.ORIGINAL_CAPACITY, edgeWithAttack.getWeight(WeightConstant.ORIGINAL_CAPACITY) * percentageReductionOfPipelinesConnected);
+                        edgeWithAttack.setWeight(WeightConstant.CAPACITY, edgeWithAttack.getWeight(WeightConstant.ORIGINAL_CAPACITY));
+                        edgeWithAttack.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
+                        activity += "\npipeline " + edgeWithAttack.getName() + " is under Attack in day " + day;
+                        String edgeKey = edgeWithAttack.getSource().getId() + "_" + edgeWithAttack.getDestination().getId();
+                        String edgeKey1 = edgeKey.split("_")[1] + "_" + edgeKey.split("_")[0];
+                        Edge edge1 = graph.getEdgeMap().get(edgeKey1);
+
+                        //non tutti gli archi hanno il loro opposto, per esempio gli archi uscenti da un source.
+                        if (edge1 != null) {
+                            if (AnnualSimulationUtil.extractEdgeById(pipelinesWithAttack, edge1.getId()) == null) {
+                                pipelinesWithAttack.add(edge1);
+                            }
+                            activity += "\nPipeline " + edge1.getName() + " is under Attack in day: " + day;
+                            edge1.setWeight(WeightConstant.ORIGINAL_CAPACITY, 0.0);
+                            edge1.setWeight(WeightConstant.CAPACITY, 0.0);
+                            edge1.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                            edge1.setValue(ValueConstant.REDUCED_CAPACITY, 0.0);
+                        }
+                    }
+                }
+            }
+        }
+        return activity;
+    }
 }

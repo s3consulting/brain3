@@ -27,6 +27,7 @@ mains/TestDijkstra.class
 util/CentralityUtil.class
 montecarlo/AttackInjector.class
 constant/ReparationTimeHeavyFault.class
+finale/RunGenericAnnualSimulator_ALGORITMO4.class
 montecarlo/DistributionConstant.class
 mains/TestGasFromFile.class
 exception/GraphException.class
@@ -45,10 +46,12 @@ constant/CapacityReductionAttack.class
 mains/TestAugmentedGraphForMultipleSourceAndSink.class
 mains/TestDijikstraOnPrakGraph.class
 time/AnnualSimulation_Montecarlo_ALGORITMO4.class
+time/ExternalAttackMultipleKeeper.class
 util/MatrixUtil.class
 mains/TestGas.class
 constant/ReparationTimeIntrinsicFault.class
 time/AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2.class
+finale/GenericAnnualSimulator_ALGORITMO4.class
 model/Vertex.class
 time/CumulativeAdjacencyMatrix.class
 model/Brain3SimulatorALGORITMO1.class
@@ -77,6 +80,7 @@ montecarlo/FailureRandomGenerator.class
 constant/ValueConstant.class
 mains/TestBrain3ALGORITMO3.class
 mains/TestCasiParticolariGraphBuilderWriteToFile.class
+time/MultipleAttackData.class
 constant/ReparationTimeConstant.class
 mains/TestGasNetworkWithCapacitiesAndFlowsUpadates.class
 time/AnnualSimulation_ALGORITMO2.class
@@ -93,6 +97,7 @@ constant/CapacityReductionHeavyFault.class
 model/Brain3SimulatorALGORITMO3.class
 constant/FailureRateConstant.class
 mains/TestBrain3ALGORITMO2.class
+finale/TestExternalAttackMultipleKeeper.class
 montecarlo/FailureInjector.class
 model/MaxFlowResponse.class
 mains/TestPraksCaseStudyGraphBuilder.class

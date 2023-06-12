@@ -15,7 +15,7 @@ public class OutputFormatterUtil {
         if (!theDir.exists()) {
             theDir.mkdirs();
         }
-        String outputFileName = theDir + "/ADJACENCY_DAY" + day + ".csv";
+        String outputFileName = theDir + "/ADJACENCY_DAY" + String.format("%03d", day) + ".csv";
         Integer numberOfVertices = graph.getVertexMap().size();
 
         FileOutputStream fos = new FileOutputStream(new File(outputFileName));
@@ -81,7 +81,7 @@ public class OutputFormatterUtil {
 
 
         for(int day=0; day<numberOfDays; day++) {
-            outputFileName = theDir + "/ADJACENCY_DAY" + day + ".csv";
+            outputFileName = theDir + "/ADJACENCY_DAY" + String.format("%03d", day) + ".csv";
             FileOutputStream fos = new FileOutputStream(new File(outputFileName));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
             String row = "";

@@ -81,7 +81,10 @@ public class GenericAnnualSimulator_ALGORITMO2 {
         List<Double> satisfiedSinksPercentage = new ArrayList<>();
 
 
-        ExternalAttackKeeper externalAttackKeeper = new ExternalAttackKeeper(2);
+        //ExternalAttackKeeper externalAttackKeeper = new ExternalAttackKeeper(2);
+        //externalAttackKeeper.loadAttackFromFile(attackDir, attackFile);
+
+        ExternalAttackMultipleKeeper externalAttackKeeper = new ExternalAttackMultipleKeeper();
         externalAttackKeeper.loadAttackFromFile(attackDir, attackFile);
 
         HeavyFaultKeeper heavyFaultKeeper = new HeavyFaultKeeper();
@@ -146,7 +149,8 @@ public class GenericAnnualSimulator_ALGORITMO2 {
             injectHeavyFaultToSourcesTxt = HeavyFaultGenerator.injectHeavyFailureToSource(augmentedGraph, day, heavyFaultKeeper, sourcesWithHeavyFault, arcsWithReducedCapacityDueToHeavyFault);
             fileObject.getBw().write(injectHeavyFaultToSourcesTxt);
 
-            injectAttackToSourcesTxt = ExternalAttackGenerator.injectAttackToSource(augmentedGraph, day, externalAttackKeeper, sourceUnderAttack, arcsWithReducedCapacityDueToAttack);
+            //injectAttackToSourcesTxt = ExternalAttackGenerator.injectAttackToSource(augmentedGraph, day, externalAttackKeeper, sourceUnderAttack, arcsWithReducedCapacityDueToAttack);
+            injectAttackToSourcesTxt = ExternalAttackGenerator.injectAttackMultipleToSource(augmentedGraph, day, externalAttackKeeper, sourceUnderAttack, arcsWithReducedCapacityDueToAttack);
             fileObject.getBw().write(injectAttackToSourcesTxt);
 
             injectIntrinsicFaultToPipelinesTxt = IntrinsicFaultGenerator.injectIntrinsicFaultToPipeline(augmentedGraph, day, pipelineFailurePerYear, pipelinesWithIntrinsicFault);
@@ -155,7 +159,8 @@ public class GenericAnnualSimulator_ALGORITMO2 {
             injectHeavyFaultToPipelinesTxt = HeavyFaultGenerator.injectHeavyFaultToPipeline(augmentedGraph, day, heavyFaultKeeper, pipelinesWithHeavyFault);
             fileObject.getBw().write(injectHeavyFaultToPipelinesTxt);
 
-            injectAttackToPipelinesTxt = ExternalAttackGenerator.injectAttackToPipeline(augmentedGraph, day, externalAttackKeeper, pipelinesUnderAttack);
+            //injectAttackToPipelinesTxt = ExternalAttackGenerator.injectAttackToPipeline(augmentedGraph, day, externalAttackKeeper, pipelinesUnderAttack);
+            injectAttackToPipelinesTxt = ExternalAttackGenerator.injectAttackMultipleToPipeline(augmentedGraph, day, externalAttackKeeper, pipelinesUnderAttack);
             fileObject.getBw().write(injectAttackToPipelinesTxt);
 
             statistics = AnnualSimulationUtil.getStatistics(sourceUnderAttack, sourcesWithHeavyFault, sourcesWithIntrinsicFault, arcsWithReducedCapacityDueToAttack, pipelinesUnderAttack, arcsWithReducedCapacityDueToHeavyFault, pipelinesWithHeavyFault, arcsWithReducedCapacityDueToIntrinsicFault, pipelinesWithIntrinsicFault);
