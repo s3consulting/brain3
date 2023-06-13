@@ -218,7 +218,7 @@ public class ExternalAttackGenerator {
                     if (optionalVertex.isPresent()) {
                         Integer vertexIndexWithAttack = optionalVertex.get().getId();
                         vertexWithAttack = graph.getVertex(vertexIndexWithAttack);
-                        //se un heavy fault non è presente allora possiamo inserirlo
+                        //se un attack non è presente allora possiamo inserirlo
                         Vertex previousVertexWithAttack = AnnualSimulationUtil.extractVertexById(sourcesWithAttack, vertexIndexWithAttack);
                         if (previousVertexWithAttack == null) {
                             sourcesWithAttack.add(vertexWithAttack);

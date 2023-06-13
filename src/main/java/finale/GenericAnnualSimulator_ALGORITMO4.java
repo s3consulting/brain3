@@ -86,9 +86,11 @@ public class GenericAnnualSimulator_ALGORITMO4 {
         ExternalAttackMultipleKeeper externalAttackKeeper = new ExternalAttackMultipleKeeper();
         externalAttackKeeper.loadAttackFromFile(attackDir, attackFile);
 
-        HeavyFaultKeeper heavyFaultKeeper = new HeavyFaultKeeper();
-        heavyFaultKeeper.loadHeavyFaultsFromFile(heavyFaultDir, heavyFaultFile);
+        //HeavyFaultKeeper heavyFaultKeeper = new HeavyFaultKeeper();
+        //heavyFaultKeeper.loadHeavyFaultsFromFile(heavyFaultDir, heavyFaultFile);
 
+        HeavyFaultMultipleKeeper heavyFaultKeeper = new HeavyFaultMultipleKeeper();
+        heavyFaultKeeper.loadHeavyFaultsFromFile(heavyFaultDir, heavyFaultFile);
 
         String updateFixedElementFromAttackTxt;
         String propagateAttackTxt;
@@ -145,7 +147,7 @@ public class GenericAnnualSimulator_ALGORITMO4 {
             injectIntrinsicFaultToSourcesTxt = IntrinsicFaultGenerator.injectIntrinsicFaultToSource(augmentedGraph, day, sourceFailurePerYear, sourcesWithIntrinsicFault, arcsWithReducedCapacityDueToIntrinsicFault);
             fileObject.getBw().write(injectIntrinsicFaultToSourcesTxt);
 
-            injectHeavyFaultToSourcesTxt = HeavyFaultGenerator.injectHeavyFailureToSource(augmentedGraph, day, heavyFaultKeeper, sourcesWithHeavyFault, arcsWithReducedCapacityDueToHeavyFault);
+            injectHeavyFaultToSourcesTxt = HeavyFaultGenerator.injectHeavyFailureMultipleToSource(augmentedGraph, day, heavyFaultKeeper, sourcesWithHeavyFault, arcsWithReducedCapacityDueToHeavyFault);
             fileObject.getBw().write(injectHeavyFaultToSourcesTxt);
 
             //injectAttackToSourcesTxt = ExternalAttackGenerator.injectAttackToSource(augmentedGraph, day, externalAttackKeeper, sourceUnderAttack, arcsWithReducedCapacityDueToAttack);
@@ -155,7 +157,7 @@ public class GenericAnnualSimulator_ALGORITMO4 {
             injectIntrinsicFaultToPipelinesTxt = IntrinsicFaultGenerator.injectIntrinsicFaultToPipeline(augmentedGraph, day, pipelineFailurePerYear, pipelinesWithIntrinsicFault);
             fileObject.getBw().write(injectIntrinsicFaultToPipelinesTxt);
 
-            injectHeavyFaultToPipelinesTxt = HeavyFaultGenerator.injectHeavyFaultToPipeline(augmentedGraph, day, heavyFaultKeeper, pipelinesWithHeavyFault);
+            injectHeavyFaultToPipelinesTxt = HeavyFaultGenerator.injectHeavyFaultMultipleToPipeline(augmentedGraph, day, heavyFaultKeeper, pipelinesWithHeavyFault);
             fileObject.getBw().write(injectHeavyFaultToPipelinesTxt);
 
             //injectAttackToPipelinesTxt = ExternalAttackGenerator.injectAttackToPipeline(augmentedGraph, day, externalAttackKeeper, pipelinesUnderAttack);

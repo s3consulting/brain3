@@ -16,6 +16,7 @@ mains/GasGraphBuilder.class
 mains/TestAttackInjector.class
 mains/TestList.class
 constant/ReparationTimeAttack.class
+finale/ConfigurationConstant.class
 time/GlobalAnnualSimulation_ALGORITMO2.class
 model/Graph.class
 util/GenericUtil.class
@@ -38,6 +39,7 @@ constant/CapacityReductionCostant.class
 time/MultiAnnualSimulation_ALGORITMO2.class
 mains/TestBuildMaxFlowPaths1.class
 util/FileObject.class
+finale/TestHeavyFaultsMultiple.class
 time/IntrinsicFaultInjector.class
 montecarlo/FailedElements.class
 time/HeavyFaultGenerator.class
@@ -61,6 +63,7 @@ util/DijkstraUtil.class
 montecarlo/RunMontecarloALGORITMO1.class
 constant/TypeConstant.class
 model/Brain3SimulatorALGORITMO4.class
+time/MultipleFaultData.class
 mains/TestBrain3ALGORITMO1.class
 time/AnnualSimulation_ALGORITMO4.class
 finale/RunGenericAnnualSimulator_ALGORITMO2.class
@@ -68,6 +71,7 @@ util/FordFulkersonUtil.class
 util/GraphUtil_OLD.class
 constant/VertexConstant.class
 mains/TestDijkstraWithCapacity.class
+finale/RunGenericAnnualSimulator_ALGORITMO4_OLD.class
 time/ExternalAttackKeeper.class
 mains/TestBrain3ALGORITMO4.class
 time/HeavyFaultKeeper$HeavyFaultData.class
@@ -83,6 +87,7 @@ mains/TestCasiParticolariGraphBuilderWriteToFile.class
 time/MultipleAttackData.class
 constant/ReparationTimeConstant.class
 mains/TestGasNetworkWithCapacitiesAndFlowsUpadates.class
+time/HeavyFaultMultipleKeeper.class
 time/AnnualSimulation_ALGORITMO2.class
 time/HeavyFaultKeeper.class
 mains/TestGasNetworkEsercizio.class

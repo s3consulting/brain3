@@ -58,9 +58,11 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestPraksCaseStudyGraphBuilder.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/GlobalAnnualSimulation_ALGORITMO2.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/CapacityReductionAttack.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/finale/TestHeavyFaultsMultiple.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/AlgorithmComparisons.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/util/GraphUtil.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/RunMontecarloALGORITMO2.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/HeavyFaultMultipleKeeper.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/TypeConstant.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/AnnualSimulationUtil.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/WeightConstant.java
@@ -89,6 +91,7 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestGasNetworkWithCapacitiesAndFlowsUpadates.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/FailureRandomGenerator.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/util/FileObject.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/finale/RunGenericAnnualSimulator_ALGORITMO4_OLD.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/FailedElements.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/CapacityReductionHeavyFault.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/montecarlo/TestMontecarlo.java
@@ -97,5 +100,7 @@
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestAttackInjector.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/ReparationTimeConstant.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/model/Brain3SimulatorALGORITMO2.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/time/MultipleFaultData.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/mains/TestBrain3ALGORITMO2.java
+/Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/finale/ConfigurationConstant.java
 /Users/cristianocimino/NetBeansProjects/generic-graph/src/main/java/constant/ReparationTimeIntrinsicFault.java

@@ -295,7 +295,7 @@ public class FileSystemUtil {
 
         String mask = GraphUtil.createFileMask();
         //String outputFileName = fileName+"__"+date.toString();
-        String outputFileName = fileName+"_ITERAZIONI_ITERATION_"+iteration+"___"+mask;
+        String outputFileName = fileName+"_LOG_ITERATION_"+iteration+"___"+mask;
 
         String newDir = directoryName + "/" + outputFileName;
         File theDir = new File(newDir);

@@ -207,4 +207,107 @@ public class HeavyFaultGenerator {
         return activity;
     }
 
+    public static String injectHeavyFailureMultipleToSource(Graph graph, int day, HeavyFaultMultipleKeeper heavyFaultKeeper, List<Vertex> sourcesWithHeavyFault, List<Edge> arcsWithReducedCapacityDueToHeavyFault) {
+        String activity = "\nInject Heavy Fault To Sources";
+        Vertex vertexWithHeavyFault = null;
+        String nodeType = "1";
+        CapacityReductionHeavyFault capacityReductionHeavyFault = new CapacityReductionHeavyFault();
+        if (heavyFaultKeeper.getHeavyFaults().get(day)!=null) {
+            for(MultipleFaultData multipleFaultData: heavyFaultKeeper.getHeavyFaults().get(day)) {
+                if(multipleFaultData.getType().equalsIgnoreCase(nodeType)) {
+                    String name = multipleFaultData.getName();
+                    Optional<Vertex> optionalVertex = graph.getVertexes().stream().filter(n -> n.getName().equalsIgnoreCase(name)).findFirst();
+                    if (optionalVertex.isPresent()) {
+                        Integer vertexIndexWithHeavyFault = optionalVertex.get().getId();
+                        vertexWithHeavyFault = graph.getVertex(vertexIndexWithHeavyFault);
+                        activity += "\nSource " + vertexWithHeavyFault.getName() + " is failing for a Heavy Fault in day: " + day;
+
+                        //se un heavy fault non è presente allora possiamo inserirlo
+                        Vertex previousVertexWithHeavyFault = AnnualSimulationUtil.extractVertexById(sourcesWithHeavyFault, vertexIndexWithHeavyFault);
+                        if (previousVertexWithHeavyFault == null) {
+                            sourcesWithHeavyFault.add(vertexWithHeavyFault);
+                        }
+                        vertexWithHeavyFault.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                        Double percentageReductionOfPipelinesConnected = capacityReductionHeavyFault.getCapacityReduction(vertexWithHeavyFault.getType());
+                        if (vertexWithHeavyFault.getInEdges() != null) {
+                            for (Edge e : vertexWithHeavyFault.getInEdges()) {
+                                Edge ee = AnnualSimulationUtil.extractEdgeByName(arcsWithReducedCapacityDueToHeavyFault, e.getName());
+                                if (ee == null) {
+                                    arcsWithReducedCapacityDueToHeavyFault.add(e);
+                                }
+                                e.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                                e.setWeight(WeightConstant.ORIGINAL_CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY) * percentageReductionOfPipelinesConnected);
+                                e.setWeight(WeightConstant.CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY));
+                                activity += "\npipeline " + e.getName() + " has reduced capacity due to " + vertexWithHeavyFault.getName() + " heavy fault";
+                                e.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
+                            }
+                        }
+                        if (vertexWithHeavyFault.getOutEdges() != null) {
+                            for (Edge e : vertexWithHeavyFault.getOutEdges()) {
+                                Edge ee = AnnualSimulationUtil.extractEdgeByName(arcsWithReducedCapacityDueToHeavyFault, e.getName());
+                                if (ee == null) {
+                                    arcsWithReducedCapacityDueToHeavyFault.add(e);
+                                }
+                                e.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                                e.setWeight(WeightConstant.ORIGINAL_CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY) * percentageReductionOfPipelinesConnected);
+                                e.setWeight(WeightConstant.CAPACITY, e.getWeight(WeightConstant.ORIGINAL_CAPACITY));
+                                activity += "\npipeline " + e.getName() + " has reduced capacity due to " + vertexWithHeavyFault.getName() + " heavy fault";
+                                e.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return activity;
+    }
+
+    public static String injectHeavyFaultMultipleToPipeline(Graph graph, int day, HeavyFaultMultipleKeeper heavyFaultKeeper, List<Edge> pipelinesWithHeavyFault) {
+        String activity = "\nInject Heavy Fault To Pipeline";
+        String arcType = "0";
+        CapacityReductionHeavyFault capacityReductionHeavyFault = new CapacityReductionHeavyFault();
+
+        if (heavyFaultKeeper.getHeavyFaults().get(day) != null ) {
+            for(MultipleFaultData multipleFaultData: heavyFaultKeeper.getHeavyFaults().get(day)) {
+                if(multipleFaultData.getType().equalsIgnoreCase(arcType)) {
+                    String name = multipleFaultData.getName();
+
+                    Optional<Edge> optionalEdge = graph.getEdges().stream().filter(n -> n.getName().equalsIgnoreCase(name)).findFirst();
+                    if (optionalEdge.isPresent()) {
+                        Integer edgeIndexWithHeavyFault = optionalEdge.get().getId();
+                        Edge edgeWithHeavyFault = graph.getEdge(edgeIndexWithHeavyFault);
+
+                        Edge previousEdgeWithHeavyFault = AnnualSimulationUtil.extractEdgeByName(pipelinesWithHeavyFault, name);
+                        if (previousEdgeWithHeavyFault == null) {
+                            pipelinesWithHeavyFault.add(edgeWithHeavyFault);
+                        }
+                        Double percentageReductionOfPipelinesConnected = capacityReductionHeavyFault.getCapacityReduction(edgeWithHeavyFault.getType());
+                        edgeWithHeavyFault.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                        edgeWithHeavyFault.setWeight(WeightConstant.ORIGINAL_CAPACITY, edgeWithHeavyFault.getWeight(WeightConstant.ORIGINAL_CAPACITY) * percentageReductionOfPipelinesConnected);
+                        edgeWithHeavyFault.setWeight(WeightConstant.CAPACITY, edgeWithHeavyFault.getWeight(WeightConstant.ORIGINAL_CAPACITY));
+                        edgeWithHeavyFault.setValue(ValueConstant.REDUCED_CAPACITY, percentageReductionOfPipelinesConnected);
+                        activity += "\npipeline " + edgeWithHeavyFault.getName() + " has a heavy fault in day: " + day;
+                        String edgeKey = edgeWithHeavyFault.getSource().getId() + "_" + edgeWithHeavyFault.getDestination().getId();
+                        String edgeKey1 = edgeKey.split("_")[1] + "_" + edgeKey.split("_")[0];
+                        Edge edge1 = graph.getEdgeMap().get(edgeKey1);
+
+                        //non tutti gli archi hanno il loro opposto, per esempio gli archi uscenti da un source.
+                        if (edge1 != null) {
+                            if (AnnualSimulationUtil.extractEdgeById(pipelinesWithHeavyFault, edge1.getId()) == null) {
+                                pipelinesWithHeavyFault.add(edge1);
+
+                            }
+                            activity += "\nPipeline " + edge1.getName() + " has a heavy fault in day: " + day;
+                            edge1.setWeight(WeightConstant.ORIGINAL_CAPACITY, 0.0);
+                            edge1.setWeight(WeightConstant.CAPACITY, 0.0);
+                            edge1.setValue(ValueConstant.FIRST_DAY_OF_FAILURE, Double.valueOf("" + day));
+                            edge1.setValue(ValueConstant.REDUCED_CAPACITY, 0.0);
+                        }
+                    }
+                }
+            }
+        }
+        return activity;
+    }
+
 }
