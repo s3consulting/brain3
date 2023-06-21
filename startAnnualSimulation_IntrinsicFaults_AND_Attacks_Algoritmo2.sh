@@ -1,1 +1,0 @@
-java -cp ./target/brain3Simulator-jar-with-dependencies.jar time.AnnualSimulation_INTRINSICFAULTS_AND_ATTACKS_ALGORITMO2  /Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS /Users/cristianocimino/NetBeansProjects/generic-graph/SIMULATION_ANNUAL_FAILS_ATTACK PRAKS_GRAPH_CASE_G /Users/cristianocimino/NetBeansProjects/generic-graph/TELEGRAM

@@ -1,1 +1,0 @@
-java -cp ./target/brain3Simulator-jar-with-dependencies.jar time.MultiAnnualSimulation_ALGORITMO2  /Users/cristianocimino/NetBeansProjects/generic-graph/GRAPHS /Users/cristianocimino/NetBeansProjects/generic-graph/MULTI_ANNUAL 10 PRAKS_GRAPH_CASE_G
