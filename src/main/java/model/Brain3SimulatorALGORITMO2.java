@@ -96,6 +96,7 @@ public class Brain3SimulatorALGORITMO2 {
                 canProceed=false;
             }
         }
+
         GraphUtil.finalFlowsUpdate(augmentedGraph);
         for(Edge e: saturatedArcs){
             System.out.println("ARCO SATURATO: "+e);
